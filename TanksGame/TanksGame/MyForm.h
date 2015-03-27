@@ -36,6 +36,11 @@ namespace Project1 {
 		}
 
 	private:
+		Graphics ^g, ^gBuff;
+		Bitmap ^buffer;
+	private: System::Windows::Forms::Panel^  panel1;
+
+
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -48,12 +53,32 @@ namespace Project1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->SuspendLayout();
+			// 
+			// panel1
+			// 
+			this->panel1->Location = System::Drawing::Point(12, 12);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(520, 520);
+			this->panel1->TabIndex = 0;
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(542, 540);
+			this->Controls->Add(this->panel1);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+
+	}
+
 	};
 }
