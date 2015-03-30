@@ -8,14 +8,19 @@
 
 class ReadFile {
 private:
-	char **commandArray; // array holding commands
+	int **commandArray; // array holding commands
 	std::ifstream inputFile; // instream to read file
 	std::string FILENAME = "level1.txt"; // filename of commands text file
 	int numCommands; // number of commands for array
+	int numAiTanks; // number of ai tanks for array in other class
+	int numWalls; // number of walls for array in other class
+	int ReadFile::getNumCommandsFromFile(); // get the number of commands from the text file
+	int getNumLines(); // inputs file and gets number of lines in the file
 public:
 	ReadFile(); // constructor
 	void setFileName(std::string); // changes name of current file
-	int getNumLines(); // inputs file and gets number of lines in the file
-	char** parseCommandFile(); // parses individual lines and adds commands to the array
+	int** parseCommandFile(); // parses individual lines and adds commands to the array
 	int getNumCommands(); // returns numCommands
+	int getNumWalls(); // returns number of walls
+	int getNumAITanks(); // returns number of ai tanks
 };

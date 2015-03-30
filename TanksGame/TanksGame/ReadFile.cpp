@@ -3,10 +3,12 @@
 // AUTHOR: MATTHEW GOLDSTEIN
 
 ReadFile::ReadFile(){
-	numCommands = getNumLines(); // get the number of lines from the file
-	commandArray = new char*[numCommands]; // initialize array of <numCommands> arrays
+	numCommands = getNumCommandsFromFile(); // get the number of commands from the file
+	numWalls = 0;
+	numAiTanks = 0;
+	commandArray = new int*[numCommands]; // initialize array of <numCommands> arrays
 	for (int i = 0; i < numCommands; i++){ // for every array in commandArray...
-		commandArray[i] = new char[5];	   // ...create an array of 5 characters
+		commandArray[i] = new int[3];	   // ...create an array of 5 characters
 	}
 }
 
@@ -23,13 +25,28 @@ int ReadFile::getNumLines(){
 	return numLines;
 }
 
+int ReadFile::getNumCommandsFromFile(){
+	inputFile.open(FILENAME); // open file
+	int numCmds = 0; // holds number of lines
+	std::string tempHolder; // allows getline to be used
+	while (std::getline(inputFile, tempHolder)){ // while there are more lines
+		if (tempHolder[0] != '#'){ // if the line doesn't have a comment
+			numCmds++; // increment numlines
+		}
+	}
+
+	inputFile.close(); // close file
+
+	return numCmds;
+}
+
 int ReadFile::getNumCommands(){
 	return numCommands;
 }
 
-char** ReadFile::parseCommandFile(){
+int** ReadFile::parseCommandFile(){
 	std::string currentLine; // buffer for reading lines and parsing
-	std::string words[5]; // array of words for current line to be parsed
+	std::string words[3]; // array of words for current line to be parsed
 	std::string currentWord; // current word being read
 	inputFile.open(FILENAME); // open input file
 
@@ -42,17 +59,30 @@ char** ReadFile::parseCommandFile(){
 			sstream >> words[i];
 			i++;
 		}
-		// different command options below
+
+		/* Commands are as follows :
+		 *	wall <xPos> <yPos>
+		 *	player <xPos> <yPos>
+		 *	ai <xPos> <yPos>
+		 */
 		currentWord = words[0];
-		if (currentWord == "world"){
-			commandArray[l][0] = 'w';
-			commandArray[l][1] = words[1][0];
-			commandArray[l][2] = words[2][0];
+		if (currentWord == "wall"){
+			numWalls++;
+			commandArray[l][0] = 0;
+			commandArray[l][1] = std::stoi(words[1]);
+			commandArray[l][2] = std::stoi(words[2]);
 		}
-
-
-		// TODO: DIFFERENT TEXT FILE CASES
-
+		else if (currentWord == "player"){
+			commandArray[l][0] = 1;
+			commandArray[l][1] = std::stoi(words[1]);
+			commandArray[l][2] = std::stoi(words[2]);
+		}
+		else if (currentWord == "ai"){
+			numAiTanks++;
+			commandArray[l][0] = 2;
+			commandArray[l][1] = std::stoi(words[1]);
+			commandArray[l][2] = std::stoi(words[2]);
+		}
 		l++;
 	}
 	inputFile.close();
