@@ -1,5 +1,14 @@
 #pragma once
 
+#include <vector>
+
+#include "ReadFile.h"
+#include "Wall.h"
+#include "Tanks.h"
+#include "Bullets.h"
+#include "Mine.h"
+
+
 namespace Project1 {
 
 	using namespace System;
@@ -36,48 +45,79 @@ namespace Project1 {
 		}
 
 	private:
+		int WORLD_WIDTH, WORLD_HEIGHT;
+
 		Graphics ^g, ^gBuff;
 		Bitmap ^buffer;
-	private: System::Windows::Forms::Panel^  panel1;
+
+		Bitmap ^floorBitmap = gcnew Bitmap("/Images/floor.png");
+		Bitmap ^wallBitmap = gcnew Bitmap("/Images/wall.png");
+		Bitmap ^tankBitmap = gcnew Bitmap("/Images/tank.png");
+		Bitmap ^tankBitmap = gcnew Bitmap("/Images/tank_gun.png");
+		Bitmap ^mineBitmap = gcnew Bitmap("/Images/mine.png");
+		Bitmap ^bulletBitmap = gcnew Bitmap("/Images/bullet.png");
+		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
+
+		std::vector<Bullets>* b;
+		std::vector<Mine>* m;
+
+		array<Wall^, 1>^ w;
+		array<Tanks^, 1>^ w;
+
+	private: System::Windows::Forms::Panel^  worldPanel;
 
 
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+
+			 /// <summary>
+			 /// Required designer variable.
+			 /// </summary>
+			 System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		void InitializeComponent(void)
-		{
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->SuspendLayout();
-			// 
-			// panel1
-			// 
-			this->panel1->Location = System::Drawing::Point(12, 12);
-			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(520, 520);
-			this->panel1->TabIndex = 0;
-			// 
-			// MyForm
-			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(542, 540);
-			this->Controls->Add(this->panel1);
-			this->Name = L"MyForm";
-			this->Text = L"MyForm";
-			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
-			this->ResumeLayout(false);
+			 /// <summary>
+			 /// Required method for Designer support - do not modify
+			 /// the contents of this method with the code editor.
+			 /// </summary>
+			 void InitializeComponent(void)
+			 {
+				 this->worldPanel = (gcnew System::Windows::Forms::Panel());
+				 this->SuspendLayout();
+				 // 
+				 // worldPanel
+				 // 
+				 this->worldPanel->Location = System::Drawing::Point(12, 12);
+				 this->worldPanel->Name = L"worldPanel";
+				 this->worldPanel->Size = System::Drawing::Size(520, 520);
+				 this->worldPanel->TabIndex = 0;
+				 // 
+				 // MyForm
+				 // 
+				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+				 this->ClientSize = System::Drawing::Size(542, 540);
+				 this->Controls->Add(this->worldPanel);
+				 this->Name = L"MyForm";
+				 this->Text = L"MyForm";
+				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+				 this->ResumeLayout(false);
 
-		}
+			 }
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 WORLD_WIDTH = worldPanel->Width;
+				 WORLD_HEIGHT = worldPanel->Height;
+	}
 
+			private: System::Void drawWorld(){
+				 
+			}
+
+	private: System::Void drawFloor(){
+				 for (int x = 0; x < WORLD_WIDTH; x += floorBitmap->Width){
+					 for (int y = 0; y < WORLD_HEIGHT; y += floorBitmap->Height){
+						 g->DrawImage(floorBitmap, x, y);
+					 }
+				 }
 	}
 
 	};
