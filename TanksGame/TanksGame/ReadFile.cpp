@@ -25,6 +25,14 @@ int ReadFile::getNumLines(){
 	return numLines;
 }
 
+int ReadFile::getNumWalls(){
+	return numWalls;
+}
+
+int ReadFile::getNumAITanks(){
+	return numAiTanks;
+}
+
 int ReadFile::getNumCommandsFromFile(){
 	inputFile.open(FILENAME); // open file
 	int numCmds = 0; // holds number of lines
