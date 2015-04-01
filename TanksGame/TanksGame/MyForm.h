@@ -58,11 +58,11 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("/Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
 
-		std::vector<Bullets>* b;
-		std::vector<Mine>* m;
+		std::vector<Bullets>* bullets;
+		std::vector<Mine>* mines;
 
-		array<Wall^, 1>^ w;
-		array<Tanks^, 1>^ w;
+		array<Wall^, 1>^ walls;
+		array<Tanks^, 1>^ tanks;
 
 	private: System::Windows::Forms::Panel^  worldPanel;
 
@@ -106,17 +106,53 @@ namespace Project1 {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
+
+				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT);
+				 gBuff = Graphics::FromImage(buffer);
 	}
 
-			private: System::Void drawWorld(){
+	private: System::Void drawWorld(){
+				 drawFloor();
+				 drawWalls();
+				 drawMines();
+				 drawBullets();
+				 drawTanks();
 				 
-			}
+				 g->DrawImage(buffer, 0, 0);
+
+				 //Bitmap.RotateFlip needs RotateFlip Object -- Rotating Tank Cannon
+
+	}
 
 	private: System::Void drawFloor(){
 				 for (int x = 0; x < WORLD_WIDTH; x += floorBitmap->Width){
 					 for (int y = 0; y < WORLD_HEIGHT; y += floorBitmap->Height){
-						 g->DrawImage(floorBitmap, x, y);
+						 gBuff->DrawImage(floorBitmap, x, y);
 					 }
+				 }
+	}
+
+	private: System::Void drawWalls(){
+				 for (int l = 0; l < walls->Length; l++){
+					 gBuff->DrawImage(wallBitmap, walls[l]->get_x(), walls[l]->get_x());
+				 }
+	}
+
+	private: System::Void drawTanks(){
+				for (int l = 0; l < tanks->Length; l++){
+					gBuff->DrawImage(tankBitmap, tanks[l]->get_x(), tanks[l]->get_x());
+				}
+	}
+
+	private: System::Void drawBullets(){
+				 for (int l = 0; l < bullets->size; l++){
+					 gBuff->DrawImage(bulletBitmap, bullets->at(l)->get_x(), bullets->at(l)->get_y());
+				 }
+	}
+
+	private: System::Void drawMines(){
+				 for (int l = 0; l < mines->size; l++){
+					 gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
 				 }
 	}
 
