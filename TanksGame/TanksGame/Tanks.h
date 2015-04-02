@@ -1,12 +1,7 @@
-<<<<<<< HEAD
+#pragma once
 #include "TanksObject.h"
 
 ref class Tanks: public TanksObject{
-=======
-#pragma once
-
-ref class Tanks{
->>>>>>> origin/master
 private:
 
 public:
