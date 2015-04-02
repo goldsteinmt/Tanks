@@ -1,6 +1,6 @@
 #include "Tanks.h"
 
-Tanks::Tanks(int newx, int newy){x = newx; y = newy;}
+Tanks::Tanks(int setX, int setY){x = setX; y = setY;}
 
 
 void Tanks::move(int key){
