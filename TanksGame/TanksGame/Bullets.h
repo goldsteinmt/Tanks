@@ -1,3 +1,5 @@
+#pragma once
+
 ref class Bullets{
 private:
 	int x, y, xdiff, ydiff;

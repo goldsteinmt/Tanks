@@ -27,6 +27,7 @@ namespace Project1 {
 	public:
 		MyForm(void)
 		{
+			Cursor->Hide();
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -60,7 +61,7 @@ namespace Project1 {
 		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
 
 		std::vector<Bullets>* bullets;
-		std::vector<Mine>* mines;
+		std::vector<Mines>* mines;
 
 		array<Walls^, 1>^ walls;
 		array<Tanks^, 1>^ enemyTanks;
@@ -109,10 +110,12 @@ namespace Project1 {
 #pragma endregion
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 ::Cursor::Hide();
-
+				 
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
+
+				 bullets = new std::vector<Bullets>();
+				 mines = new std::vector<Mines>();
 
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT);
 				 gBuff = Graphics::FromImage(buffer);

@@ -1,3 +1,5 @@
+#pragma once
+
 ref class Tanks{
 private:
 	int x, y;
