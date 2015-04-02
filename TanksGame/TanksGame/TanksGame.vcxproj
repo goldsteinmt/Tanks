@@ -79,21 +79,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AITanks.cpp" />
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="CollisionDetect.cpp" />
+    <ClCompile Include="Mines.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="ReadFile.cpp" />
     <ClCompile Include="Tanks.cpp" />
+    <ClCompile Include="TanksObject.cpp" />
     <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AITanks.h" />
     <ClInclude Include="Bullets.h" />
     <ClInclude Include="CollisionDetect.h" />
+    <ClInclude Include="Mines.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ReadFile.h" />
     <ClInclude Include="Tanks.h" />
+    <ClInclude Include="TanksObject.h" />
     <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>

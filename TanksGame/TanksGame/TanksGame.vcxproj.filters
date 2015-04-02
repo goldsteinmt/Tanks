@@ -33,6 +33,15 @@
     <ClCompile Include="Walls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AITanks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TanksObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -51,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Walls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AITanks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TanksObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

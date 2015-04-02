@@ -13,5 +13,8 @@ private:
 	int width; // width of object
 	int height; // height of object
 public:
-	int get_x();
+	int get_x(); // return x position of the object
+	int get_y(); // return y position of the object
+	int get_width(); // return width of the object
+	int get_height(); // return height of the object
 };

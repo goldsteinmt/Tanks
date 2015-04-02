@@ -2,6 +2,6 @@
 
 // AUTHOR: Matthew Goldstein
 
-class AITanks{
+ref class AITanks: public TanksObject{
 
 };
