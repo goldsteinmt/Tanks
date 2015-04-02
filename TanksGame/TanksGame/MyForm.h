@@ -3,11 +3,12 @@
 #include <vector>
 
 #include "ReadFile.h"
-#include "Wall.h"
+#include "CollisionDetect.h"
+
+#include "Walls.h"
 #include "Tanks.h"
 #include "Bullets.h"
-#include "Mine.h"
-
+#include "Mines.h"
 
 namespace Project1 {
 
@@ -61,10 +62,10 @@ namespace Project1 {
 		std::vector<Bullets>* bullets;
 		std::vector<Mine>* mines;
 
-		array<Wall^, 1>^ walls;
+		array<Walls^, 1>^ walls;
 		array<Tanks^, 1>^ enemyTanks;
 
-		Tanks player_1;
+		Tanks ^player_1;
 
 	private: System::Windows::Forms::Panel^  worldPanel;
 
@@ -101,12 +102,15 @@ namespace Project1 {
 				 this->Name = L"MyForm";
 				 this->Text = L"MyForm";
 				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+				 this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 this->ResumeLayout(false);
 
 			 }
 #pragma endregion
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 ::Cursor::Hide();
+
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
 
@@ -160,9 +164,20 @@ namespace Project1 {
 	}
 			 
 	private: System::Void drawTankGun(){
+				//not sure exactly how to rotate this yet
 				 
-				 gBuff->DrawImage(tankGunBitmap, mines->at(1)->get_x(), mines->at(1)->get_y());
+				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
-	};
+	private: System::Void drawCursor(int x, int y){
+				 gBuff->DrawImage(pointerBitmap, x, y);
+	}
+
+			 /*
+				Mouse move event handler for cursor and tankGun updates
+			 */
+	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				 drawCursor(e->X, e->Y);
+	}
+};
 }
