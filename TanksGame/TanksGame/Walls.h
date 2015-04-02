@@ -1,6 +1,8 @@
 #pragma once
 
-ref class Walls: public TanksObject{
+#include "TanksObject.h"
+
+ref class Walls : public TanksObject{
 private:
 	int x, y;
 

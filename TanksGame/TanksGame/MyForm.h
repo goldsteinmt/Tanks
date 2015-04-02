@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "ReadFile.h"
-#include "CollisionDetect.h"
+//#include "CollisionDetect.h"
 
 #include "Walls.h"
 #include "Tanks.h"
@@ -60,8 +60,8 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("/Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
 
-		std::vector<Bullets>* bullets;
-		std::vector<Mines>* mines;
+		//std::vector<Bullets>* bullets;
+		//std::vector<Mines>* mines;
 
 		array<Walls^, 1>^ walls;
 		array<Tanks^, 1>^ enemyTanks;
@@ -114,9 +114,13 @@ namespace Project1 {
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
 
+				 /*
+				 bullets->reserve(1);
+				 mines->reserve(1);
+
 				 bullets = new std::vector<Bullets>();
 				 mines = new std::vector<Mines>();
-
+				 */
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT);
 				 gBuff = Graphics::FromImage(buffer);
 	}
@@ -124,8 +128,8 @@ namespace Project1 {
 	private: System::Void drawWorld(){
 				 drawFloor();
 				 drawWalls();
-				 drawMines();
-				 drawBullets();
+				 //drawMines();
+				 //drawBullets();
 				 drawTanks();
 				 
 				 g->DrawImage(buffer, 0, 0);
@@ -153,7 +157,7 @@ namespace Project1 {
 					 gBuff->DrawImage(tankBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_x());
 				}
 	}
-
+			 /*
 	private: System::Void drawBullets(){
 				 for (int l = 0; l < bullets->size; l++){
 					 gBuff->DrawImage(bulletBitmap, bullets->at(l)->get_x(), bullets->at(l)->get_y());
@@ -164,7 +168,7 @@ namespace Project1 {
 				 for (int l = 0; l < mines->size; l++){
 					 gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
 				 }
-	}
+	}*/
 			 
 	private: System::Void drawTankGun(){
 				//not sure exactly how to rotate this yet
