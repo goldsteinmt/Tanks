@@ -84,6 +84,7 @@
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="ReadFile.cpp" />
     <ClCompile Include="Tanks.cpp" />
+    <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullets.h" />
@@ -93,6 +94,7 @@
     </ClInclude>
     <ClInclude Include="ReadFile.h" />
     <ClInclude Include="Tanks.h" />
+    <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

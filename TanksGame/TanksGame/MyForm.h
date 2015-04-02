@@ -53,7 +53,7 @@ namespace Project1 {
 		Bitmap ^floorBitmap = gcnew Bitmap("/Images/floor.png");
 		Bitmap ^wallBitmap = gcnew Bitmap("/Images/wall.png");
 		Bitmap ^tankBitmap = gcnew Bitmap("/Images/tank.png");
-		Bitmap ^tankBitmap = gcnew Bitmap("/Images/tank_gun.png");
+		Bitmap ^tankGunBitmap = gcnew Bitmap("/Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("/Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("/Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
@@ -62,7 +62,9 @@ namespace Project1 {
 		std::vector<Mine>* mines;
 
 		array<Wall^, 1>^ walls;
-		array<Tanks^, 1>^ tanks;
+		array<Tanks^, 1>^ enemyTanks;
+
+		Tanks player_1;
 
 	private: System::Windows::Forms::Panel^  worldPanel;
 
@@ -103,6 +105,7 @@ namespace Project1 {
 
 			 }
 #pragma endregion
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
@@ -139,8 +142,8 @@ namespace Project1 {
 	}
 
 	private: System::Void drawTanks(){
-				for (int l = 0; l < tanks->Length; l++){
-					gBuff->DrawImage(tankBitmap, tanks[l]->get_x(), tanks[l]->get_x());
+				 for (int l = 0; l < enemyTanks->Length; l++){
+					 gBuff->DrawImage(tankBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_x());
 				}
 	}
 
@@ -154,6 +157,11 @@ namespace Project1 {
 				 for (int l = 0; l < mines->size; l++){
 					 gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
 				 }
+	}
+			 
+	private: System::Void drawTankGun(){
+				 
+				 gBuff->DrawImage(tankGunBitmap, mines->at(1)->get_x(), mines->at(1)->get_y());
 	}
 
 	};
