@@ -7,7 +7,7 @@ ref class TanksObject{
 	 *		class for the Tanks Class, the AITanks Class, the
 	 *		Bullets Class, the Mines Class, and the Walls Class
 	 */
-private:
+protected:
 	int x; // x value of location
 	int y; // y value of location
 	int width; // width of object
