@@ -8,6 +8,8 @@ int Tanks::get_y(){return y;}
 
 
 void Tanks::move(int key){
+	//for WASD keys
+	//W is 1, D is 2, S is 3, A is 4
 
 	switch (key){
 	case 1:
