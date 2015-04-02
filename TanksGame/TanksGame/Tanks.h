@@ -1,12 +1,11 @@
-ref class Tanks{
+#include "TanksObject.h"
+
+ref class Tanks: public TanksObject{
 private:
-	int x, y;
 
 public:
 	Tanks(int, int);
 
 	void move(int key);
-	int get_x();
-	int get_y();
 
 };

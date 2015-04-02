@@ -1,13 +1,13 @@
-ref class Bullets{
+#include "TanksObject.h"
+
+ref class Bullets: public TanksObject{
 private:
-	int x, y, xdiff, ydiff;
+	int xdiff, ydiff;
 
 public:
 	Bullets(int, int);
 
 	void fire(int,int);
 	void travel(int, int);
-	int get_x();
-	int get_y();
 
 };

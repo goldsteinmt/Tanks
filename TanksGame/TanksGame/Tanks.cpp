@@ -2,10 +2,6 @@
 
 Tanks::Tanks(int newx, int newy){x = newx; y = newy;}
 
-int Tanks::get_x(){return x;}
-
-int Tanks::get_y(){return y;}
-
 
 void Tanks::move(int key){
 	//for WASD keys
