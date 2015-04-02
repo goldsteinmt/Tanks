@@ -121,7 +121,7 @@ namespace Project1 {
 				 bullets = new std::vector<Bullets>();
 				 mines = new std::vector<Mines>();
 				 */
-				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT);
+				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
 	}
 
