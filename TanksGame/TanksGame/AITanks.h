@@ -1,9 +1,12 @@
 #pragma once
 
-#include "TanksObject.h"
+#include "Tanks.h"
 
 // AUTHOR: Matthew Goldstein
 
-ref class AITanks: public TanksObject{
+ref class AITanks: public Tanks{
+private:
 
+public:
+	
 };
