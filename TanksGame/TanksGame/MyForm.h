@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <windows.h>
+#include <tchar.h>
 
 #include "ReadFile.h"
 //#include "CollisionDetect.h"
@@ -52,16 +54,15 @@ namespace Project1 {
 		Graphics ^g, ^gBuff;
 		Bitmap ^buffer;
 
-		Bitmap ^floorBitmap = gcnew Bitmap("/Images/floor.png");
-		Bitmap ^wallBitmap = gcnew Bitmap("/Images/wall.png");
-		Bitmap ^tankBitmap = gcnew Bitmap("/Images/tank.png");
-		Bitmap ^tankGunBitmap = gcnew Bitmap("/Images/tank_gun.png");
-		Bitmap ^mineBitmap = gcnew Bitmap("/Images/mine.png");
-		Bitmap ^bulletBitmap = gcnew Bitmap("/Images/bullet.png");
-		Bitmap ^pointerBitmap = gcnew Bitmap("/Images/pointer.png");
+		Bitmap ^floorBitmap = gcnew Bitmap("Images/floor.png");
+		Bitmap ^wallBitmap = gcnew Bitmap("Images/wall.png");
+		Bitmap ^tankBitmap = gcnew Bitmap("Images/tank.png");
+		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
+		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
+		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
+		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 
-		//std::vector<Bullets>* bullets;
-		//std::vector<Mines>* mines;
+		
 
 		array<Walls^, 1>^ walls;
 		array<Tanks^, 1>^ enemyTanks;
@@ -93,6 +94,7 @@ namespace Project1 {
 				 this->worldPanel->Name = L"worldPanel";
 				 this->worldPanel->Size = System::Drawing::Size(520, 520);
 				 this->worldPanel->TabIndex = 0;
+				 this->worldPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 // 
 				 // MyForm
 				 // 
@@ -109,20 +111,27 @@ namespace Project1 {
 			 }
 #pragma endregion
 
+			 std::vector<Bullets^>^ bullets;
+			 std::vector<Mines^>^ mines;
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 
+				 //initCustomCursor();
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
 
-				 /*
+				 bullets = gcnew std::vector<Bullets^>();
+				 mines = gcnew std::vector<Mines^>();
+
 				 bullets->reserve(1);
 				 mines->reserve(1);
-
-				 bullets = new std::vector<Bullets>();
-				 mines = new std::vector<Mines>();
-				 */
+				 
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
+				 g = worldPanel->CreateGraphics();
+	}
+			 
+	private: System::Void initCustomCursor(){
+				 //TODO
 	}
 
 	private: System::Void drawWorld(){
@@ -131,7 +140,7 @@ namespace Project1 {
 				 //drawMines();
 				 //drawBullets();
 				 drawTanks();
-				 
+
 				 g->DrawImage(buffer, 0, 0);
 
 				 //Bitmap.RotateFlip needs RotateFlip Object -- Rotating Tank Cannon
@@ -155,24 +164,24 @@ namespace Project1 {
 	private: System::Void drawTanks(){
 				 for (int l = 0; l < enemyTanks->Length; l++){
 					 gBuff->DrawImage(tankBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_x());
-				}
+				 }
 	}
 			 /*
 	private: System::Void drawBullets(){
-				 for (int l = 0; l < bullets->size; l++){
-					 gBuff->DrawImage(bulletBitmap, bullets->at(l)->get_x(), bullets->at(l)->get_y());
-				 }
+	for (int l = 0; l < bullets->size; l++){
+	gBuff->DrawImage(bulletBitmap, bullets->at(l)->get_x(), bullets->at(l)->get_y());
+	}
 	}
 
 	private: System::Void drawMines(){
-				 for (int l = 0; l < mines->size; l++){
-					 gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
-				 }
+	for (int l = 0; l < mines->size; l++){
+	gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
+	}
 	}*/
-			 
+
 	private: System::Void drawTankGun(){
-				//not sure exactly how to rotate this yet
-				 
+				 //not sure exactly how to rotate this yet
+
 				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
@@ -180,11 +189,17 @@ namespace Project1 {
 				 gBuff->DrawImage(pointerBitmap, x, y);
 	}
 
+	private: System::Void clearBuffer(){
+				 gBuff->FillRectangle(gcnew SolidBrush(Color::White), 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+	}
+
 			 /*
 				Mouse move event handler for cursor and tankGun updates
-			 */
+				*/
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				 drawCursor(e->X, e->Y);
+				// clearBuffer();
+				// drawCursor(e->X, e->Y);
+				// g->DrawImage(buffer, 0, 0);
 	}
+	};
 };
-}
