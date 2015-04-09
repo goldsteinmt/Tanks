@@ -5,8 +5,8 @@ ref class Tanks: public TanksObject{
 private:
 	
 	int num_mines;
-
 public:
+	Tanks();
 	Tanks(int, int);
 
 	void move(int key);
