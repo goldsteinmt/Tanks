@@ -3,12 +3,9 @@
 
 ref class Tanks: public TanksObject{
 private:
-<<<<<<< HEAD
 	
-=======
 	int num_mines;
 
->>>>>>> origin/master
 public:
 	Tanks(int, int);
 
