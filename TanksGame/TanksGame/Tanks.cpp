@@ -22,3 +22,9 @@ void Tanks::move(int key){
 		break;
 	}
 }
+
+int Tanks::pocket() {return num_mines;}
+
+void Tanks::grabMine() { num_mines++; }
+
+void Tanks::dropMine() { num_mines--; }
