@@ -3,7 +3,7 @@
 
 ref class Tanks: public TanksObject{
 private:
-
+	
 public:
 	Tanks(int, int);
 
