@@ -8,6 +8,7 @@
 
 #include "Walls.h"
 #include "Tanks.h"
+#include "AITanks.h"
 #include "Bullets.h"
 #include "Mines.h"
 
@@ -50,6 +51,8 @@ namespace Project1 {
 	private:
 		int WORLD_WIDTH, WORLD_HEIGHT;
 
+		int** commands;
+
 		Graphics ^g, ^gBuff;
 		Bitmap ^buffer;
 
@@ -61,8 +64,8 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 
-		array<Walls^, 1> ^walls;
-		array<Tanks^, 1> ^enemyTanks;
+		array<Walls^, 1> ^array_of_walls;
+		array<AITanks^, 1> ^array_of_enemyTanks;
 
 		Tanks ^player_1;
 
@@ -116,6 +119,32 @@ namespace Project1 {
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
 				 g = worldPanel->CreateGraphics();
+
+				 /*
+				 0 - wall
+				 1 - player
+				 2 - ai
+				 */
+				 ReadFile *file = new ReadFile();
+				 commands = file->parseCommandFile();
+				 
+				 array_of_enemyTanks = gcnew array<AITanks^, 1>(file->getNumAITanks);
+				 array_of_walls = gcnew array<Walls^, 1>(file->getNumWalls);
+
+				 int num_commands = file->getNumCommands();
+				 const int num_args = 3;
+
+				 for (int a = 0; a < num_commands; a++){
+						 if (commands[a][0] == 0){
+							 array_of_walls[a] = gcnew Walls(commands[a][1], commands[a][2]);
+						 }
+						 else if (commands[a][0] == 1){
+							 player_1 = gcnew Tanks(commands[a][1], commands[a][2]);
+						 }
+						 else if (commands[a][0] == 2){
+							 array_of_enemyTanks[a] = gcnew AITanks();
+						 }
+				 }
 	}
 			 
 	private: System::Void initCustomCursor(){
@@ -150,27 +179,30 @@ namespace Project1 {
 	}
 
 	private: System::Void drawTanks(){
-				 for (int l = 0; l < enemyTanks->Length; l++){
-					 gBuff->DrawImage(tankBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_x());
+				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
+					 gBuff->DrawImage(tankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_x());
 				 }
 	}
 			 
 	private: System::Void drawBullets(){
-		for (int l = 0; l < enemyTanks->Length; l++){
-			//get bullets and put in separate loop
-			gBuff->DrawImage(bulletBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_y());
-		}
+					for (int l = 0; l < array_of_enemyTanks->Length; l++){
+						for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
+							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->get_bullets()[l]->get_x(), array_of_enemyTanks[l]->get_bullets()[l]->get_y());
+						}
+					}
 	}
 
 	private: System::Void drawMines(){
-		for (int l = 0; l < enemyTanks->Length; l++){
-			gBuff->DrawImage(mineBitmap, enemyTanks[l]->get_x(), enemyTanks->[l]->get_y());
-		}
+					for (int l = 0; l < array_of_enemyTanks->Length; l++){
+						for (int b = 0; b < array_of_enemyTanks[l]->pocket(); b++){
+							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->get_mines()[l]->get_x(), array_of_enemyTanks[l]->get_mines()[l]->get_y());
+						}
+					}
 	}
-
+			 
 	private: System::Void drawTankGun(){
 				 //not sure exactly how to rotate this yet
-
+				 //probably should get a bunch of images
 				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
