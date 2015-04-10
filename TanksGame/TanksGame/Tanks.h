@@ -3,14 +3,11 @@
 
 ref class Tanks: public TanksObject{
 private:
-<<<<<<< HEAD
+
 	int num_mines, num_bullets;
 
-
-=======
-	
 	int num_mines;
->>>>>>> origin/master
+
 public:
 	Tanks();
 	Tanks(int, int);

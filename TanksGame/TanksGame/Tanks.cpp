@@ -1,5 +1,4 @@
 #include "Tanks.h"
-Tanks::Tanks(){}
 Tanks::Tanks(int setX, int setY){x = setX; y = setY;}
 
 
