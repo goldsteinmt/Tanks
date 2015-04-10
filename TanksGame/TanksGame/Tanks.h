@@ -3,14 +3,15 @@
 
 ref class Tanks: public TanksObject{
 private:
-	int num_mines;
+	int num_mines, num_bullets;
+
 
 public:
 	Tanks(int, int);
 
 	void move(int key);
 	int pocket();
-	void grabMine();
+	int get_num_bullets();
 	void dropMine();
 
 };
