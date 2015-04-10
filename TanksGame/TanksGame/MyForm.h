@@ -1,11 +1,10 @@
 #pragma once
 
 #include <vector>
-#include <windows.h>
-#include <tchar.h>
+
 
 #include "ReadFile.h"
-//#include "CollisionDetect.h"
+#include "CollisionDetect.h"
 
 #include "Walls.h"
 #include "Tanks.h"
@@ -62,10 +61,8 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 
-		
-
-		array<Walls^, 1>^ walls;
-		array<Tanks^, 1>^ enemyTanks;
+		array<Walls^, 1> ^walls;
+		array<Tanks^, 1> ^enemyTanks;
 
 		Tanks ^player_1;
 
@@ -111,19 +108,10 @@ namespace Project1 {
 			 }
 #pragma endregion
 
-			 std::vector<Bullets^>^ bullets;
-			 std::vector<Mines^>^ mines;
-
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 //initCustomCursor();
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
-
-				 bullets = gcnew std::vector<Bullets^>();
-				 mines = gcnew std::vector<Mines^>();
-
-				 bullets->reserve(1);
-				 mines->reserve(1);
 				 
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
@@ -166,18 +154,19 @@ namespace Project1 {
 					 gBuff->DrawImage(tankBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_x());
 				 }
 	}
-			 /*
+			 
 	private: System::Void drawBullets(){
-	for (int l = 0; l < bullets->size; l++){
-	gBuff->DrawImage(bulletBitmap, bullets->at(l)->get_x(), bullets->at(l)->get_y());
-	}
+		for (int l = 0; l < enemyTanks->Length; l++){
+			//get bullets and put in separate loop
+			gBuff->DrawImage(bulletBitmap, enemyTanks[l]->get_x(), enemyTanks[l]->get_y());
+		}
 	}
 
 	private: System::Void drawMines(){
-	for (int l = 0; l < mines->size; l++){
-	gBuff->DrawImage(mineBitmap, mines->at(l)->get_x(), mines->at(l)->get_y());
+		for (int l = 0; l < enemyTanks->Length; l++){
+			gBuff->DrawImage(mineBitmap, enemyTanks[l]->get_x(), enemyTanks->[l]->get_y());
+		}
 	}
-	}*/
 
 	private: System::Void drawTankGun(){
 				 //not sure exactly how to rotate this yet
