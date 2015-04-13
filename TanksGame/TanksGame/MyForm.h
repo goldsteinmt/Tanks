@@ -50,6 +50,7 @@ namespace Project1 {
 
 	private:
 		int WORLD_WIDTH, WORLD_HEIGHT, leftRight = 0, upDown = 0;
+		bool upPressed = false, downPressed = false, rightPressed = false, leftPressed = false;
 
 		int** commands;
 
@@ -121,14 +122,23 @@ namespace Project1 {
 #pragma endregion
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 //initCustomCursor();
+				 
+				 InitWorldVariables();
+
+				 LoadLevelFromFile();
+	}
+		
+	private: System::Void InitWorldVariables(){
+				//Sets up the world dimention variables and the panel graphics
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
-				 
+
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
 				 g = worldPanel->CreateGraphics();
+	}
 
+	private: System::Void LoadLevelFromFile(){
 				 /*
 				 0 - wall
 				 1 - player
@@ -136,28 +146,32 @@ namespace Project1 {
 				 */
 				 ReadFile *file = new ReadFile();
 				 commands = file->parseCommandFile();
-				 
-				 array_of_enemyTanks = gcnew array<AITanks^, 1>(file->getNumAITanks);
-				 array_of_walls = gcnew array<Walls^, 1>(file->getNumWalls);
+
+				 //gets array size information from file
+				 array_of_enemyTanks = gcnew array<AITanks^, 1>(file->getNumAITanks());
+				 array_of_walls = gcnew array<Walls^, 1>(file->getNumWalls());
 
 				 int num_commands = file->getNumCommands();
 				 const int num_args = 3;
 
 				 for (int a = 0; a < num_commands; a++){
-						 if (commands[a][0] == 0){
-							 array_of_walls[a] = gcnew Walls(commands[a][1], commands[a][2]);
-						 }
-						 else if (commands[a][0] == 1){
-							 player_1 = gcnew Tanks(commands[a][1], commands[a][2]);
-						 }
-						 else if (commands[a][0] == 2){
-							 array_of_enemyTanks[a] = gcnew AITanks();
-						 }
+					 if (commands[a][0] == 0){
+						 array_of_walls[a] = gcnew Walls(commands[a][1], commands[a][2]);
+					 }
+					 else if (commands[a][0] == 1){
+						 player_1 = gcnew Tanks(commands[a][1], commands[a][2]);
+					 }
+					 else if (commands[a][0] == 2){
+						 array_of_enemyTanks[a] = gcnew AITanks(commands[a][1], commands[a][2], player_1);
+					 }
 				 }
 	}
-			 
+
 	private: System::Void initCustomCursor(){
-				 //TODO
+				 /*
+					Really hard to do without external libraries
+					"Images/pointer.cur" - cursor file
+				 */
 	}
 
 	private: System::Void drawFloor(){
@@ -207,7 +221,19 @@ namespace Project1 {
 	}
 
 	private: System::Void updatePlayerTankLocation(){
-				 //TODO
+				 if (upPressed){
+					 player_1->move(1);
+				 }
+				 else if (downPressed){
+					 player_1->move(3);
+				 }
+
+				 if (leftPressed){
+					 player_1->move(4);
+				 }
+				 else if (rightPressed){
+					 player_1->move(2);
+				 }
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -217,31 +243,38 @@ namespace Project1 {
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::W){
 					 upDown = 1;
+					 upPressed = true;
 				 }
 				 if (e->KeyCode == Keys::A){
 					 leftRight = -1;
+					 leftPressed = true;
 				 }
 				 if (e->KeyCode == Keys::S){
 					 upDown = -1;
+					 downPressed = true;
 				 }
 				 if (e->KeyCode == Keys::D){
 					 leftRight = 1;
+					 rightPressed = true;
 				 }
 	}
 
 	private: System::Void MyForm_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-				 //temporary code
 				 if (e->KeyCode == Keys::W){
 					 upDown = 0;
+					 upPressed = false;
 				 }
 				 if (e->KeyCode == Keys::A){
 					 leftRight = 0;
+					 leftPressed = false;
 				 }
 				 if (e->KeyCode == Keys::S){
 					 upDown = 0;
+					 downPressed = false;
 				 }
 				 if (e->KeyCode == Keys::D){
 					 leftRight = 0;
+					 rightPressed = false;
 				 }
 	}
 
@@ -253,7 +286,7 @@ namespace Project1 {
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
-				 
+				 updatePlayerTankLocation();
 	}
 
 	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
