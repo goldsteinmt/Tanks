@@ -10,7 +10,7 @@ class ReadFile {
 private:
 	int **commandArray; // array holding commands
 	std::ifstream inputFile; // instream to read file
-	std::string FILENAME = "level1.txt"; // filename of commands text file
+	std::string FILENAME; // filename of commands text file
 	int numCommands; // number of commands for array
 	int numAiTanks; // number of ai tanks for array in other class
 	int numWalls; // number of walls for array in other class

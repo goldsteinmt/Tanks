@@ -1,5 +1,4 @@
 #include "Tanks.h"
-
 Tanks::Tanks(int setX, int setY){x = setX; y = setY;}
 
 
@@ -24,7 +23,6 @@ void Tanks::move(int key){
 }
 
 int Tanks::pocket() {return num_mines;}
-
-void Tanks::grabMine() { num_mines++; }
+int Tanks::get_num_bullets() { return num_bullets; }
 
 void Tanks::dropMine() { num_mines--; }

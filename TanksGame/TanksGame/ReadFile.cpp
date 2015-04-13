@@ -6,6 +6,7 @@ ReadFile::ReadFile(){
 	numCommands = getNumCommandsFromFile(); // get the number of commands from the file
 	numWalls = 0;
 	numAiTanks = 0;
+	FILENAME = "level1.txt";
 	commandArray = new int*[numCommands]; // initialize array of <numCommands> arrays
 	for (int i = 0; i < numCommands; i++){ // for every array in commandArray...
 		commandArray[i] = new int[3];	   // ...create an array of 5 characters
