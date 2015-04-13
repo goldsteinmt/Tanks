@@ -49,7 +49,7 @@ namespace Project1 {
 		}
 
 	private:
-		int WORLD_WIDTH, WORLD_HEIGHT;
+		int WORLD_WIDTH, WORLD_HEIGHT, leftRight = 0, upDown = 0;
 
 		int** commands;
 
@@ -70,13 +70,12 @@ namespace Project1 {
 		Tanks ^player_1;
 
 	private: System::Windows::Forms::Panel^  worldPanel;
-
-
+	private: System::Windows::Forms::Timer^  game_timer;
+	private: System::ComponentModel::IContainer^  components;
 
 			 /// <summary>
 			 /// Required designer variable.
 			 /// </summary>
-			 System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -85,7 +84,9 @@ namespace Project1 {
 			 /// </summary>
 			 void InitializeComponent(void)
 			 {
+				 this->components = (gcnew System::ComponentModel::Container());
 				 this->worldPanel = (gcnew System::Windows::Forms::Panel());
+				 this->game_timer = (gcnew System::Windows::Forms::Timer(this->components));
 				 this->SuspendLayout();
 				 // 
 				 // worldPanel
@@ -94,7 +95,12 @@ namespace Project1 {
 				 this->worldPanel->Name = L"worldPanel";
 				 this->worldPanel->Size = System::Drawing::Size(520, 520);
 				 this->worldPanel->TabIndex = 0;
+				 this->worldPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::worldPanel_Paint);
 				 this->worldPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
+				 // 
+				 // game_timer
+				 // 
+				 this->game_timer->Tick += gcnew System::EventHandler(this, &MyForm::game_timer_Tick);
 				 // 
 				 // MyForm
 				 // 
@@ -105,6 +111,9 @@ namespace Project1 {
 				 this->Name = L"MyForm";
 				 this->Text = L"MyForm";
 				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+				 this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
+				 this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyUp);
+				 this->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
 				 this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 this->ResumeLayout(false);
 
@@ -151,19 +160,6 @@ namespace Project1 {
 				 //TODO
 	}
 
-	private: System::Void drawWorld(){
-				 drawFloor();
-				 drawWalls();
-				 //drawMines();
-				 //drawBullets();
-				 drawTanks();
-
-				 g->DrawImage(buffer, 0, 0);
-
-				 //Bitmap.RotateFlip needs RotateFlip Object -- Rotating Tank Cannon
-
-	}
-
 	private: System::Void drawFloor(){
 				 for (int x = 0; x < WORLD_WIDTH; x += floorBitmap->Width){
 					 for (int y = 0; y < WORLD_HEIGHT; y += floorBitmap->Height){
@@ -173,8 +169,8 @@ namespace Project1 {
 	}
 
 	private: System::Void drawWalls(){
-				 for (int l = 0; l < walls->Length; l++){
-					 gBuff->DrawImage(wallBitmap, walls[l]->get_x(), walls[l]->get_x());
+				 for (int l = 0; l < array_of_walls->Length; l++){
+					 gBuff->DrawImage(wallBitmap, array_of_walls[l]->get_x(), array_of_walls[l]->get_x());
 				 }
 	}
 
@@ -206,21 +202,68 @@ namespace Project1 {
 				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
-	private: System::Void drawCursor(int x, int y){
-				 gBuff->DrawImage(pointerBitmap, x, y);
-	}
-
 	private: System::Void clearBuffer(){
 				 gBuff->FillRectangle(gcnew SolidBrush(Color::White), 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 	}
 
-			 /*
-				Mouse move event handler for cursor and tankGun updates
-				*/
-	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				// clearBuffer();
-				// drawCursor(e->X, e->Y);
-				// g->DrawImage(buffer, 0, 0);
+	private: System::Void updatePlayerTankLocation(){
+				 //TODO
 	}
-	};
+
+	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				// aim gun
+	}
+	
+	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+				 if (e->KeyCode == Keys::W){
+					 upDown = 1;
+				 }
+				 if (e->KeyCode == Keys::A){
+					 leftRight = -1;
+				 }
+				 if (e->KeyCode == Keys::S){
+					 upDown = -1;
+				 }
+				 if (e->KeyCode == Keys::D){
+					 leftRight = 1;
+				 }
+	}
+
+	private: System::Void MyForm_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+				 //temporary code
+				 if (e->KeyCode == Keys::W){
+					 upDown = 0;
+				 }
+				 if (e->KeyCode == Keys::A){
+					 leftRight = 0;
+				 }
+				 if (e->KeyCode == Keys::S){
+					 upDown = 0;
+				 }
+				 if (e->KeyCode == Keys::D){
+					 leftRight = 0;
+				 }
+	}
+
+	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				 //shoot bullet
+				 if (player_1->can_shoot()){
+					 player_1->shoot(e->X, e->Y);
+				 }
+	}
+
+	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
+				 
+	}
+
+	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+				 drawFloor();
+				 drawWalls();
+				 drawMines();
+				 drawBullets();
+				 drawTanks();
+
+				 g->DrawImage(buffer, 0, 0);
+	}
+};
 };
