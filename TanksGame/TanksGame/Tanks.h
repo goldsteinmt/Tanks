@@ -5,9 +5,10 @@ ref class Tanks: public TanksObject{
 private:
 
 	int num_mines, num_bullets;
-
 	int num_mines;
-
+	array<Tanks^, 1> ^bullets;
+	array<Tanks^, 1> ^mines;
+	
 public:
 	Tanks();
 	Tanks(int, int);
@@ -16,5 +17,7 @@ public:
 	int pocket();
 	int get_num_bullets();
 	void dropMine();
+	void set_mines();
+	void set_bullets();
 
 };
