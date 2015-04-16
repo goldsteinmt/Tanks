@@ -2,7 +2,6 @@
 
 #include <vector>
 
-
 #include "ReadFile.h"
 #include "CollisionDetect.h"
 
@@ -101,6 +100,7 @@ namespace Project1 {
 				 // 
 				 // game_timer
 				 // 
+				 this->game_timer->Interval = 20;
 				 this->game_timer->Tick += gcnew System::EventHandler(this, &MyForm::game_timer_Tick);
 				 // 
 				 // MyForm
@@ -110,7 +110,7 @@ namespace Project1 {
 				 this->ClientSize = System::Drawing::Size(542, 540);
 				 this->Controls->Add(this->worldPanel);
 				 this->Name = L"MyForm";
-				 this->Text = L"MyForm";
+				 this->Text = L"Tanks @ 50fps wow/10 #reckt edition montage parody the game";
 				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 				 this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 				 this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyUp);
@@ -168,10 +168,8 @@ namespace Project1 {
 	}
 
 	private: System::Void initCustomCursor(){
-				 /*
-					Really hard to do without external libraries
-					"Images/pointer.cur" - cursor file
-				 */
+					//Really hard to do without external libraries
+					//"Images/pointer.cur" - cursor file
 	}
 
 	private: System::Void drawFloor(){
@@ -187,7 +185,7 @@ namespace Project1 {
 					 gBuff->DrawImage(wallBitmap, array_of_walls[l]->get_x(), array_of_walls[l]->get_x());
 				 }
 	}
-
+			 
 	private: System::Void drawTanks(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 gBuff->DrawImage(tankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_x());
@@ -197,7 +195,7 @@ namespace Project1 {
 	private: System::Void drawBullets(){
 					for (int l = 0; l < array_of_enemyTanks->Length; l++){
 						for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
-							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->get_bullets()[l]->get_x(), array_of_enemyTanks[l]->get_bullets()[l]->get_y());
+							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
 						}
 					}
 	}
@@ -205,7 +203,7 @@ namespace Project1 {
 	private: System::Void drawMines(){
 					for (int l = 0; l < array_of_enemyTanks->Length; l++){
 						for (int b = 0; b < array_of_enemyTanks[l]->pocket(); b++){
-							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->get_mines()[l]->get_x(), array_of_enemyTanks[l]->get_mines()[l]->get_y());
+							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getMine(l)->get_x(), array_of_enemyTanks[l]->getMine(l)->get_y());
 						}
 					}
 	}
@@ -215,7 +213,7 @@ namespace Project1 {
 				 //probably should get a bunch of images
 				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
-
+	
 	private: System::Void clearBuffer(){
 				 gBuff->FillRectangle(gcnew SolidBrush(Color::White), 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 	}
@@ -234,6 +232,12 @@ namespace Project1 {
 				 else if (rightPressed){
 					 player_1->move(2);
 				 }
+	}
+			
+	private: System::Void updateTanks(){
+				 player_1->update();
+				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
+					 array_of_enemyTanks[updaterIndex]->update();
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -280,13 +284,16 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
+				 /*
 				 if (player_1->can_shoot()){
 					 player_1->shoot(e->X, e->Y);
 				 }
+				 */
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 updatePlayerTankLocation();
+
 	}
 
 	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
@@ -295,6 +302,8 @@ namespace Project1 {
 				 drawMines();
 				 drawBullets();
 				 drawTanks();
+
+				 updateTanks();
 
 				 g->DrawImage(buffer, 0, 0);
 	}
