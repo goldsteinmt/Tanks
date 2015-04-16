@@ -5,7 +5,6 @@ ref class Tanks: public TanksObject{
 private:
 
 	int num_mines, num_bullets;
-	int num_mines;
 	array<Tanks^, 1> ^bullets;
 	array<Tanks^, 1> ^mines;
 	
