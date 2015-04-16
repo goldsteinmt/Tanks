@@ -110,7 +110,7 @@ namespace Project1 {
 				 this->ClientSize = System::Drawing::Size(542, 540);
 				 this->Controls->Add(this->worldPanel);
 				 this->Name = L"MyForm";
-				 this->Text = L"Tanks @ 50fps wow/10 #reckt edition montage parody the game";
+				 this->Text = L"Tanks @ 50fps";
 				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 				 this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 				 this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyUp);
@@ -186,7 +186,7 @@ namespace Project1 {
 				 }
 	}
 			 
-	private: System::Void drawTanks(){
+	private: System::Void drawTanks(){	  
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 gBuff->DrawImage(tankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_x());
 				 }
@@ -235,13 +235,14 @@ namespace Project1 {
 	}
 			
 	private: System::Void updateTanks(){
-				 player_1->update();
-				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
-					 array_of_enemyTanks[updaterIndex]->update();
+				// player_1->update();
+				// for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
+				//	 array_of_enemyTanks[updaterIndex]->update();
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				// aim gun
+				 
 	}
 	
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
@@ -260,6 +261,9 @@ namespace Project1 {
 				 if (e->KeyCode == Keys::D){
 					 leftRight = 1;
 					 rightPressed = true;
+				 }
+				 if (e->KeyCode == Keys::Space){
+					 player_1->dropMine();
 				 }
 	}
 
@@ -284,11 +288,11 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
-				 /*
-				 if (player_1->can_shoot()){
-					 player_1->shoot(e->X, e->Y);
+				 
+				 if (player_1->get_num_bullets() < 5){
+					 player_1->fire(e->X, e->Y);
 				 }
-				 */
+				 
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
