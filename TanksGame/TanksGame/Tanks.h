@@ -8,6 +8,7 @@ protected:
 	array<Tanks^, 1> ^mines;
 	
 public:
+	Tanks(); // Default constructor to prevent errors in other classes
 	Tanks(int, int);
 	void update();
 	

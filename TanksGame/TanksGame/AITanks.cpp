@@ -38,4 +38,10 @@ void AITanks::update(){
 		minesPlaced[num_mines_placed] = gcnew Mines(x + (width / 2), y + height);
 	}
 
+
+
+}
+
+void AITanks::move(){
+
 }

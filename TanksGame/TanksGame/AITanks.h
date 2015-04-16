@@ -22,7 +22,6 @@ private:
 public:
 	AITanks(int, int, Tanks^); // constructor -- takes the player as an argument to decide when to shoot
 	void move(); // function to decide whether or not to move ai tank and where to move it to
-	void shoot(); // function to decide whether or not to shoot at the player and actually shoot
 	Bullets^ getBullet(int); // returns the array of currently live bullets
 	Mines^ getMine(int); // returns the array of currently placed mines
 	void update(); // updates for every redraw
