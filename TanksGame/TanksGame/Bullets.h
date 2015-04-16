@@ -7,7 +7,7 @@ private:
 	int xdiff, ydiff;
 
 public:
-	Bullets(int, int);
+	Bullets(int, int, int, int);
 
 	void fire(int,int);
 	void travel(int, int);

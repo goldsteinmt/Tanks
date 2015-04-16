@@ -11,6 +11,7 @@ private:
 public:
 	Tanks();
 	Tanks(int, int);
+	Tanks.update();
 
 	void move(int key);
 	int pocket();

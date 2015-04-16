@@ -1,11 +1,15 @@
 #include "Bullets.h"
-Bullets::Bullets(int setX, int setY){ x = setX; y = setY; }
+Bullets::Bullets(int setX, int setY, int destination_x, int destination_y)
+{ 
+	x = setX; y = setY; 
+	fire(destination_x,destination_y);
+}
 
 
-void Bullets::fire(int destination_x, int destination_y){
+void Bullets::fire(int dx, int dy){
 	int factor;
-	xdiff = destination_x - x;
-	ydiff = destination_y - y;
+	xdiff = dx - x;
+	ydiff = dy - y;
 	if ((xdiff < 0 && ydiff<0) || (xdiff>0 && ydiff>0))
 		factor = 1;
 	else factor = -1;
