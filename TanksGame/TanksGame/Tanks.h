@@ -9,9 +9,8 @@ private:
 	array<Tanks^, 1> ^mines;
 	
 public:
-	Tanks();
 	Tanks(int, int);
-	Tanks.update();
+	
 
 	void move(int key);
 	int pocket();

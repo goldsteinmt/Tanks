@@ -1,7 +1,6 @@
 #include "Tanks.h"
 #include "Mines.h"
 
-Tanks::Tanks(){}
 Tanks::Tanks(int setX, int setY){x = setX; y = setY;}
 
 
