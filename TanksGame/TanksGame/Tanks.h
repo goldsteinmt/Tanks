@@ -2,14 +2,14 @@
 #include "TanksObject.h"
 
 ref class Tanks: public TanksObject{
-private:
-
+protected:
 	int num_mines, num_bullets;
 	array<Tanks^, 1> ^bullets;
 	array<Tanks^, 1> ^mines;
 	
 public:
 	Tanks(int, int);
+	void update();
 	
 
 	void move(int key);
