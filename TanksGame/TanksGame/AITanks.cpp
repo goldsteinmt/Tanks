@@ -6,8 +6,8 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 	player = newPlayer;
 	x = newX;
 	y = newY;
-	width = 0;  // TODO: change
-	height = 0; // TODO: change
+	width = 60;  // TODO: change
+	height = 60; // TODO: change
 
 
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
@@ -15,10 +15,22 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 
 }
 
-array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE) AITanks::getCurrentBullets(){
-	return bulletsShot;
+Bullets^ AITanks::getBullet(int index){
+	if (index < NUM_BULLETS_CAN_FIRE)
+		return bulletsShot[index];
 }
 
-AITanks::getCurrentMines(){
-	return minesPlaced;
+Mines^ AITanks::getMine(int index){
+	if (index < NUM_MINES_CAN_PLACE)
+		return minesPlaced[index];
+}
+
+void AITanks::update(){
+	numUpdates++;
+	if (numUpdates % 50 == 0){
+		if (num_current_bullets < 5){
+			bulletsShot[num_current_bullets] = gcnew Bullets(x, y);
+			bulletsShot[num_current_bullets]->fire(player->get_x(), player->get_y());
+		}
+	}
 }
