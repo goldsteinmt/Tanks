@@ -1,4 +1,5 @@
 #include "AITanks.h"
+#include "Bullets.h"
 
 // AUTHOR: Matthew Goldstein
 
@@ -29,8 +30,9 @@ void AITanks::update(){
 	numUpdates++;
 	if (numUpdates % 50 == 0){
 		if (num_current_bullets < 5){
-			bulletsShot[num_current_bullets] = gcnew Bullets(x, y);
-			bulletsShot[num_current_bullets]->fire(player->get_x(), player->get_y());
+			bulletsShot[num_current_bullets] = gcnew Bullets(x, y, player->get_x(), player->get_y());
+			num_bullets++;
 		}
 	}
+
 }
