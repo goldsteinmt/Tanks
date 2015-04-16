@@ -11,6 +11,7 @@ private:
 	Tanks^ player; // holder for player 1 so ai tank can shoot at it
 	const int NUM_BULLETS_CAN_FIRE = 5; // number of bullets that can be fired at a time
 	const int NUM_MINES_CAN_PLACE = 3; // number of mines that can be placed at a time
+	const int BULLET_UPDATE_RATE = 50; // number of frames between each bullet update
 	int num_current_bullets = 0; // number of bullets currently existing
 	int num_mines_placed = 0; // number of mines tank has placed
 	array<Bullets^, 1>^ bulletsShot; // holds current bullets
