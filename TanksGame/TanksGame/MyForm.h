@@ -241,7 +241,42 @@ namespace Project1 {
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				// aim gun
+				 int angle = 45;        //45° for example 
+				 //Convert degrees to radians 
+				 float radians = (2 * 3.1416*angle) / 360;
+
+				 float cosine = (float)cos(radians);
+				 float sine = (float)sin(radians);
+
+				 float Point1x = (-tankBitmap->Height*sine);
+				 float Point1y = (tankBitmap->Height*cosine);
+				 float Point2x = (tankBitmap->Width*cosine - tankBitmap->Height*sine);
+				 float Point2y = (tankBitmap->Height*cosine + tankBitmap->Width*sine);
+				 float Point3x = (tankBitmap->Width*cosine);
+				 float Point3y = (tankBitmap->Width*sine);
+
+				 float minx = Math::Min(0, (int)Math::Min((int)Point1x, (int)Math::Min(Point2x, Point3x)));
+				 float miny = Math::Min(0, (int)Math::Min((int)Point1y, (int)Math::Min(Point2y, Point3y)));
+				 float maxx = Math::Max((int)Point1x, (int)Math::Max(Point2x, Point3x));
+				 float maxy = Math::Max((int)Point1y, (int)Math::Max(Point2y, Point3y));
+
+				 int dw = (int)ceil(fabs(maxx) - minx);
+				 int dh = (int)ceil(fabs(maxy) - miny);
+				 Bitmap ^DestBitmap = gcnew Bitmap(dw, dh, Imaging::PixelFormat::Format32bppArgb);
+
+				 for (int x = 0; x < dw; x++)
+				 {
+					 for (int y = 0; y < dh; y++)
+					 {
+						 int SrcBitmapx = (int)((x + minx)*cosine + (y + miny)*sine);
+						 int SrcBitmapy = (int)((y + miny)*cosine - (x + minx)*sine);
+						 if (SrcBitmapx >= 0 && SrcBitmapx < tankBitmap->Width && SrcBitmapy >= 0 &&
+							 SrcBitmapy < tankBitmap->Height)
+						 {
+							 DestBitmap->SetPixel(x, y, tankBitmap->GetPixel(SrcBitmapx, SrcBitmapy));
+						 }
+					 }
+				 }
 				 
 	}
 	
@@ -288,16 +323,13 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
-				 
 				 if (player_1->get_num_bullets() < 5){
-					 player_1->fire(e->X, e->Y);
+					 //player_1->fire(e->X, e->Y);
 				 }
-				 
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 updatePlayerTankLocation();
-
 	}
 
 	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {

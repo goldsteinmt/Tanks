@@ -3,6 +3,7 @@
 
 Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; }
 
+Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 
 void Tanks::move(int key){
 	//for WASD keys

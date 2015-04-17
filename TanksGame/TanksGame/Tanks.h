@@ -8,11 +8,10 @@ protected:
 	array<Tanks^, 1> ^mines;
 	
 public:
+	Tanks(); // Default constructor to prevent errors in other classes
 	Tanks(int, int);
 	void update();
-	//check if collided and check if dead-bullets
-	//check if mines have been stepped on
-	//make num bullets ++ when fired every 25 updates (to fire call travel)
+	
 
 	void move(int key);
 	int pocket();
