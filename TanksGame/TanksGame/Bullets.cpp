@@ -21,8 +21,12 @@ void Bullets::fire(int dx, int dy){
 	}
 }
 
-void Bullets::travel(int xdiff, int ydiff){
-	x += xdiff;
-	y += ydiff;
+void Bullets::update(){
+	num_update++;
+	if (num_update % 25 == 0)
+	{
+		x += xdiff;
+		y += ydiff;
+	}
 	}
 

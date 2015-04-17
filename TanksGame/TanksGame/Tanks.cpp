@@ -1,7 +1,7 @@
 #include "Tanks.h"
 #include "Mines.h"
 
-Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; }
+Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; }
 
 
 void Tanks::move(int key){
@@ -37,9 +37,16 @@ void Tanks::set_mines() {
 
 void Tanks::set_bullets() {
 
-	bullets = gcnew array<Tanks^, 1>(num_bullets);
+	bullets = gcnew array<Tanks^, 1>(5);
 }
 
 void Tanks::update()
 {
+	num_updates++;
+	if (num_bullets < 5)
+	if (click==true)
+	{
+		num_bullets++;
+	}
+	
 }

@@ -4,12 +4,12 @@
 ref class Bullets: public TanksObject{
 
 private:
-	int xdiff, ydiff;
+	int xdiff, ydiff, num_update = 0;
 
 public:
 	Bullets(int, int, int, int);
 
 	void fire(int,int);
-	void travel(int, int);
+	void update();
 
 };
