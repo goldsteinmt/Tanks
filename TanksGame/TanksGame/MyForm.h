@@ -53,6 +53,8 @@ namespace Project1 {
 
 		int** commands;
 
+		ReadFile *file;
+
 		Graphics ^g, ^gBuff;
 		Bitmap ^buffer;
 
@@ -145,7 +147,7 @@ namespace Project1 {
 				 2 - ai
 				 */
 				 
-				 ReadFile *file = new ReadFile();
+				 file = new ReadFile();
 				 commands = file->parseCommandFile();
 
 				 //gets array size information from file
@@ -242,7 +244,12 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 
-				 int angle = 45;        //45° for example 
+				 int dx = e->X - player_1->get_x();
+				 int dy = e->Y - player_1->get_y();
+
+				 
+
+				 int angle = Math::Atan2(dy, dx);
 				 //Convert degrees to radians 
 				 float radians = (2 * 3.14159 * angle) / 360;
 
