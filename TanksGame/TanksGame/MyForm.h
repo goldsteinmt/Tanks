@@ -144,6 +144,7 @@ namespace Project1 {
 				 1 - player
 				 2 - ai
 				 */
+				 
 				 ReadFile *file = new ReadFile();
 				 commands = file->parseCommandFile();
 
@@ -152,7 +153,6 @@ namespace Project1 {
 				 array_of_walls = gcnew array<Walls^, 1>(file->getNumWalls());
 
 				 int num_commands = file->getNumCommands();
-				 const int num_args = 3;
 
 				 for (int a = 0; a < num_commands; a++){
 					 if (commands[a][0] == 0){
@@ -241,9 +241,10 @@ namespace Project1 {
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				 
 				 int angle = 45;        //45° for example 
 				 //Convert degrees to radians 
-				 float radians = (2 * 3.1416*angle) / 360;
+				 float radians = (2 * 3.14159 * angle) / 360;
 
 				 float cosine = (float)cos(radians);
 				 float sine = (float)sin(radians);
