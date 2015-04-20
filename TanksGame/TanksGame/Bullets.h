@@ -10,6 +10,6 @@ public:
 	Bullets(int, int, int, int);
 
 	void fire(int,int);
-	void update();
+	void travel();
 
 };

@@ -16,6 +16,7 @@ public:
 	void move(int key);
 	int pocket();
 	int get_num_bullets();
+	void launch();
 	void dropMine();
 	void set_mines();
 	void set_bullets();

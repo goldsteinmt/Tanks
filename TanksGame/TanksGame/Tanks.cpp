@@ -41,13 +41,16 @@ void Tanks::set_bullets() {
 	bullets = gcnew array<Tanks^, 1>(5);
 }
 
+void Tanks::launch()
+{
+	if (num_bullets < 5)
+		num_bullets++;
+}
+
 void Tanks::update()
 {
 	num_updates++;
-	if (num_bullets < 5)
-	if (click==true)
-	{
-		num_bullets++;
-	}
+	if (num_updates % 25 == 0)
+		Bullets.travel();
 	
 }
