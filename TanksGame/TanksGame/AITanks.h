@@ -14,11 +14,13 @@ private:
 	const int BULLET_FIRE_RATE = 50; // number of frames between each bullet update
 	const int MINE_PLACE_RATE = 150; // number of frames between each mine place
 	const int MOVE_RATE = 25; // number of frames between each movement
+	const int MOVE_DISTANCE = 10; // number of pixels to move at each update
 	int num_current_bullets = 0; // number of bullets currently existing
 	int num_mines_placed = 0; // number of mines tank has placed
 	array<Bullets^, 1>^ bulletsShot; // holds current bullets
 	array<Mines^, 1>^ minesPlaced; // holds mines that have been placed
 	int numUpdates = 0; // number of updates 
+	int direction = 0; // (%4) 0 = north, 1 = east, 2 = south, 3 = west
 public:
 	AITanks(int, int, Tanks^); // constructor -- takes the player as an argument to decide when to shoot
 	void move(); // function to decide whether or not to move ai tank and where to move it to
