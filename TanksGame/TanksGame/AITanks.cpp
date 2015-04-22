@@ -53,6 +53,15 @@ void AITanks::update(){
 		}
 	}
 
+	for (int j = 0; j < NUM_BULLETS_CAN_FIRE; j++){
+		if (bulletsShot[j]->isDead()){
+			for (int k = j; k < NUM_BULLETS_CAN_FIRE - 1; k++){
+				bulletsShot[k] = bulletsShot[k + 1];
+			}
+			bulletsShot[NUM_BULLETS_CAN_FIRE - 1] = nullptr;
+		}
+	}
+
 	for (int i = 0; i < NUM_BULLETS_CAN_FIRE; i++){
 		if (bulletsShot[i] != nullptr && numUpdates % MOVE_RATE == 0){
 			bulletsShot[i]->travel();

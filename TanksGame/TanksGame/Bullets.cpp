@@ -1,8 +1,8 @@
 #include "Bullets.h"
 Bullets::Bullets(int setX, int setY, int destination_x, int destination_y)
-{ 
-	x = setX; y = setY; 
-	fire(destination_x,destination_y);
+{
+	x = setX; y = setY;
+	fire(destination_x, destination_y);
 }
 
 
@@ -10,7 +10,7 @@ void Bullets::fire(int dx, int dy){
 	int factor;
 	xdiff = dx - x;
 	ydiff = dy - y;
-	if ((xdiff < 0 && ydiff<0) || (xdiff>0 && ydiff>0))
+	if ((xdiff < 0 && ydiff < 0) || (xdiff>0 && ydiff>0))
 		factor = 1;
 	else factor = -1;
 
@@ -22,7 +22,10 @@ void Bullets::fire(int dx, int dy){
 }
 
 void Bullets::travel(){
-		x += xdiff;
-		y += ydiff;
-	}
+	x += xdiff;
+	y += ydiff;
+}
 
+bool Bullets::isDead(){
+	return dead;
+}
