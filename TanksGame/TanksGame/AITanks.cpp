@@ -1,6 +1,5 @@
 #include "AITanks.h"
 #include "Bullets.h"
-#define NULL '\0'
 
 // AUTHOR: Matthew Goldstein
 
@@ -55,8 +54,8 @@ void AITanks::update(){
 	}
 
 	for (int i = 0; i < NUM_BULLETS_CAN_FIRE; i++){
-		if (bulletsShot[i] != NULL){
-			bulletsShot[i].travel();
+		if (bulletsShot[i] != nullptr && numUpdates % MOVE_RATE == 0){
+			bulletsShot[i]->travel();
 		}
 	}
 }
