@@ -30,7 +30,9 @@ int Tanks::pocket() {return num_mines;}
 
 int Tanks::get_num_bullets() { return num_bullets; }
 
-void Tanks::dropMine() { num_mines--; }
+void Tanks::dropMine() { 
+	mines[num_mines] = nullptr;
+	num_mines--; }
 
 void Tanks::set_mines() {
 
@@ -48,7 +50,7 @@ Bullets^ Tanks::get_bullet(int num){
 }
 
 Mines^ Tanks::get_mine(int num){
-	if (num < 5)
+	if (num < num_mines)
 		return mines[num];
 }
 
