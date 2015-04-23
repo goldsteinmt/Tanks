@@ -41,11 +41,11 @@ void Tanks::set_mines() {
 
 void Tanks::set_bullets() {
 
-	bullets = gcnew array<Bullets^, 1>(5);
+	bullets = gcnew array<Bullets^, 1>(maxb);
 }
 
 Bullets^ Tanks::get_bullet(int num){
-	if (num < 5)
+	if (num < maxb)
 		return bullets[num];
 }
 
@@ -54,18 +54,35 @@ Mines^ Tanks::get_mine(int num){
 		return mines[num];
 }
 
-void Tanks::launch()
+void Tanks::launch(int dx, int dy)
 {
-	if (num_bullets < 5)
+	if (num_bullets < maxb)
+	{
 		num_bullets++;
+
+		for (int i = 0; i < maxb; i++){
+			if (bullets[i] == nullptr)
+				bullets[i] = gcnew Bullets(x,y,dx,dy);
+		}
+	}
 }
 
 void Tanks::update()
 {
 	num_updates++;
-	for (int i = 0; i < 5; i++){
-		if (bullets[i] != nullptr && num_updates % 25 == 0){
+	for (int i = 0; i < maxb; i++){
+		if (bullets[i] != nullptr && num_updates % maxu == 0)
 			bullets[i]->travel();
+	}
+
+	for (int i = 0; i < maxb; i++){
+		if (bullets[i]->isDead()){
+			for (int j = i; j < (maxb-1); j++){
+				bullets[j] = bullets[j + 1];
+			}
+			bullets[(maxb-1)] = nullptr;
+			num_bullets--;
 		}
+	}
 	
 }
