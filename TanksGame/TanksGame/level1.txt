@@ -1,11 +1,3 @@
-# world is 520 x 520 pixels
-# Commands are as follows:
-#	wall <xPos> <yPos>
-#	player <xPos> <yPos>
-#	ai <xPos> <yPos>
-#
-#	LEVEL 1
-#
 wall 40 360
 wall 80 360
 wall 120 360

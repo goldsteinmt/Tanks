@@ -3,23 +3,26 @@
 // AUTHOR: MATTHEW GOLDSTEIN
 
 ReadFile::ReadFile(){
-	numCommands = getNumCommandsFromFile(); // get the number of commands from the file
+	numCommands = getNumLines(); // get the number of commands from the file
 	numWalls = 0;
 	numAiTanks = 0;
 	FILENAME = "level1.txt";
 	commandArray = new int*[numCommands]; // initialize array of <numCommands> arrays
 	for (int i = 0; i < numCommands; i++){ // for every array in commandArray...
-		commandArray[i] = new int[3];	   // ...create an array of 5 characters
+		commandArray[i] = new int[3];	   // ...create an array of 3 ints
 	}
 }
 
 int ReadFile::getNumLines(){
 	inputFile.open(FILENAME); // open file
 	int numLines = 0; // holds number of lines
-	std::string tempHolder; // allows getline to be used
-	while (std::getline(inputFile, tempHolder)){ // while there are more lines
-		numLines++; // increment numlines
+	char c;
+	while (inputFile.get(c)){ // while there are more lines
+		if (c == '\n'){
+			numLines++; // increment numlines
+		}
 	}
+	
 
 	inputFile.close(); // close file
 
@@ -34,21 +37,6 @@ int ReadFile::getNumAITanks(){
 	return numAiTanks;
 }
 
-int ReadFile::getNumCommandsFromFile(){
-	inputFile.open(FILENAME); // open file
-	int numCmds = 0; // holds number of lines
-	std::string tempHolder; // allows getline to be used
-	while (std::getline(inputFile, tempHolder)){ // while there are more lines
-		if (tempHolder[0] != '#'){ // if the line doesn't have a comment
-			numCmds++; // increment numlines
-		}
-	}
-
-	inputFile.close(); // close file
-
-	return numCmds;
-}
-
 int ReadFile::getNumCommands(){
 	return numCommands;
 }
@@ -59,12 +47,12 @@ int** ReadFile::parseCommandFile(){
 	std::string currentWord; // current word being read
 	inputFile.open(FILENAME); // open input file
 
-	int l = 0;
+	int k = 0;
 	while (std::getline(inputFile, currentLine)){
 		std::transform(currentLine.begin(), currentLine.end(), currentLine.begin(), ::tolower);
 		std::stringstream sstream(currentLine);  // allows to parse string into array of words
 		int i = 0;
-		while (sstream.good() && i < 5){
+		while (sstream.good() && i < 3){
 			sstream >> words[i];
 			i++;
 		}
@@ -77,22 +65,25 @@ int** ReadFile::parseCommandFile(){
 		currentWord = words[0];
 		if (currentWord == "wall"){
 			numWalls++;
-			commandArray[l][0] = 0;
-			commandArray[l][1] = std::stoi(words[1]);
-			commandArray[l][2] = std::stoi(words[2]);
+			commandArray[k][0] = 0;
+			commandArray[k][1] = std::stoi(words[1]);
+			commandArray[k][2] = std::stoi(words[2]);
+			k++;
 		}
 		else if (currentWord == "player"){
-			commandArray[l][0] = 1;
-			commandArray[l][1] = std::stoi(words[1]);
-			commandArray[l][2] = std::stoi(words[2]);
+			commandArray[k][0] = 1;
+			commandArray[k][1] = std::stoi(words[1]);
+			commandArray[k][2] = std::stoi(words[2]);
+			k++;
 		}
 		else if (currentWord == "ai"){
 			numAiTanks++;
-			commandArray[l][0] = 2;
-			commandArray[l][1] = std::stoi(words[1]);
-			commandArray[l][2] = std::stoi(words[2]);
+			commandArray[k][0] = 2;
+			commandArray[k][1] = std::stoi(words[1]);
+			commandArray[k][2] = std::stoi(words[2]);
+			k++;
 		}
-		l++;
+		
 	}
 	inputFile.close();
 	return commandArray;

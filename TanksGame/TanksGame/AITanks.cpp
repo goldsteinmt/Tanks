@@ -59,6 +59,7 @@ void AITanks::update(){
 				bulletsShot[k] = bulletsShot[k + 1];
 			}
 			bulletsShot[NUM_BULLETS_CAN_FIRE - 1] = nullptr;
+			num_current_bullets--;
 		}
 	}
 
