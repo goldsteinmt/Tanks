@@ -3,7 +3,9 @@
 
 ref class Mines: public TanksObject{
 private:
+	bool dead = false;
 
 public:
 	Mines(int, int);
+	bool isDead();
 };

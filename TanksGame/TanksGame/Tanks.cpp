@@ -1,6 +1,6 @@
 #include "Tanks.h"
 
-Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; }
+Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; num_mines = 0; }
 
 Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 
@@ -29,12 +29,17 @@ int Tanks::pocket() {return num_mines;}
 int Tanks::get_num_bullets() { return num_bullets; }
 
 void Tanks::dropMine() { 
-	//mines[num_mines] = nullptr;
-	//num_mines--; 
+	//mines[maxm-] = nullptr;
+	//num_mines++; 
+	if (num_mines < maxm)
+	{
+		num_mines++;
+
+	}
 }
 
 void Tanks::set_mines() {
-	mines = gcnew array<Mines^, 1>(num_mines);
+	mines = gcnew array<Mines^, 1>(maxm);
 }
 
 void Tanks::set_bullets() {
@@ -48,7 +53,7 @@ Bullets^ Tanks::get_bullet(int num){
 }
 
 Mines^ Tanks::get_mine(int num){
-	if (num < num_mines)
+	if (num < maxm)
 		return mines[num];
 }
 
@@ -60,7 +65,10 @@ void Tanks::launch(int dx, int dy)
 
 		for (int i = 0; i < maxb; i++){
 			if (bullets[i] == nullptr)
-				bullets[i] = gcnew Bullets(x,y,dx,dy);
+			{
+				bullets[i] = gcnew Bullets(x, y, dx, dy); i = maxb;
+				//set i to maxb so it only fires one bullet and not all available
+			}
 		}
 	}
 }
@@ -68,8 +76,10 @@ void Tanks::launch(int dx, int dy)
 void Tanks::update()
 {
 	num_updates++;
+
+	if (num_updates % maxu == 0)
 	for (int i = 0; i < maxb; i++){
-		if (bullets[i] != nullptr && num_updates % maxu == 0)
+		if (bullets[i] != nullptr)
 			bullets[i]->travel();
 	}
 
@@ -80,6 +90,15 @@ void Tanks::update()
 			}
 			bullets[(maxb-1)] = nullptr;
 			num_bullets--;
+		}
+	}
+	for (int i = 0; i < maxm; i++){
+		if (mines[i]->isDead()){
+			for (int j = i; j < (maxm - 1); j++){
+				mines[j] = mines[j + 1];
+			}
+			mines[(maxm - 1)] = nullptr;
+			num_mines--;
 		}
 	}
 	
