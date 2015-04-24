@@ -1,5 +1,7 @@
 #pragma once
 #include "TanksObject.h"
+#include "Bullets.h"
+#include "Mines.h"
 
 ref class Tanks: public TanksObject{
 protected:
