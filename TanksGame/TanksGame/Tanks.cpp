@@ -29,8 +29,6 @@ int Tanks::pocket() {return num_mines;}
 int Tanks::get_num_bullets() { return num_bullets; }
 
 void Tanks::dropMine() { 
-	//mines[maxm-] = nullptr;
-	//num_mines++; 
 	if (num_mines < maxm)
 	{
 		num_mines++;
@@ -62,12 +60,11 @@ void Tanks::launch(int dx, int dy)
 	if (num_bullets < maxb)
 	{
 		num_bullets++;
-
+		
 		for (int i = 0; i < maxb; i++){
 			if (bullets[i] == nullptr)
 			{
-				bullets[i] = gcnew Bullets(x, y, dx, dy); i = maxb;
-				//set i to maxb so it only fires one bullet and not all available
+				bullets[i] = gcnew Bullets(x, y, dx, dy); break;
 			}
 		}
 	}
