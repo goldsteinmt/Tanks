@@ -77,4 +77,9 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="level1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

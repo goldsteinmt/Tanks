@@ -3,10 +3,10 @@
 // AUTHOR: MATTHEW GOLDSTEIN
 
 ReadFile::ReadFile(){
+	FILENAME = "level1.txt";
 	numCommands = getNumLines(); // get the number of commands from the file
 	numWalls = 0;
 	numAiTanks = 0;
-	FILENAME = "level1.txt";
 	commandArray = new int*[numCommands]; // initialize array of <numCommands> arrays
 	for (int i = 0; i < numCommands; i++){ // for every array in commandArray...
 		commandArray[i] = new int[3];	   // ...create an array of 3 ints
@@ -15,14 +15,12 @@ ReadFile::ReadFile(){
 
 int ReadFile::getNumLines(){
 	inputFile.open(FILENAME); // open file
+	std::string currentline;
 	int numLines = 0; // holds number of lines
-	char c;
-	while (inputFile.get(c)){ // while there are more lines
-		if (c == '\n'){
-			numLines++; // increment numlines
-		}
+	while (getline(inputFile, currentline)){ // while there are more lines
+		numLines++; // increment numlines
 	}
-	
+
 
 	inputFile.close(); // close file
 
@@ -83,7 +81,7 @@ int** ReadFile::parseCommandFile(){
 			commandArray[k][2] = std::stoi(words[2]);
 			k++;
 		}
-		
+
 	}
 	inputFile.close();
 	return commandArray;

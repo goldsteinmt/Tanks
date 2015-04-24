@@ -14,7 +14,6 @@ private:
 	int numCommands; // number of commands for array
 	int numAiTanks; // number of ai tanks for array in other class
 	int numWalls; // number of walls for array in other class
-	int ReadFile::getNumCommandsFromFile(); // get the number of commands from the text file
 	int getNumLines(); // inputs file and gets number of lines in the file
 public:
 	ReadFile(); // constructor
