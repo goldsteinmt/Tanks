@@ -28,7 +28,7 @@ namespace Project1 {
 	public:
 		MyForm(void)
 		{
-			Cursor->Hide();
+			//Cursor->Hide();
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -61,10 +61,12 @@ namespace Project1 {
 		Bitmap ^floorBitmap = gcnew Bitmap("Images/floor.png");
 		Bitmap ^wallBitmap = gcnew Bitmap("Images/wall.png");
 		Bitmap ^tankBitmap = gcnew Bitmap("Images/tank.png");
+		Bitmap ^enemyTankBitmap = gcnew Bitmap("Images/enemy_tank.png");
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
+		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1,1);
 
 		array<Walls^, 1> ^array_of_walls;
 		array<AITanks^, 1> ^array_of_enemyTanks;
@@ -124,14 +126,14 @@ namespace Project1 {
 #pragma endregion
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 
+
 				 InitWorldVariables();
 
 				 LoadLevelFromFile();
 	}
-		
+
 	private: System::Void InitWorldVariables(){
-				//Sets up the world dimention variables and the panel graphics
+				 //Sets up the world dimention variables and the panel graphics
 				 WORLD_WIDTH = worldPanel->Width;
 				 WORLD_HEIGHT = worldPanel->Height;
 
@@ -146,7 +148,7 @@ namespace Project1 {
 				 1 - player
 				 2 - ai
 				 */
-				 
+
 				 file = new ReadFile();
 				 commands = file->parseCommandFile();
 
@@ -155,23 +157,26 @@ namespace Project1 {
 				 array_of_walls = gcnew array<Walls^, 1>(file->getNumWalls());
 
 				 int num_commands = file->getNumCommands();
+				 int wallx = 0, etankx = 0;
 
 				 for (int a = 0; a < num_commands; a++){
 					 if (commands[a][0] == 0){
-						 array_of_walls[a] = gcnew Walls(commands[a][1], commands[a][2]);
+						 array_of_walls[wallx] = gcnew Walls(commands[a][1], commands[a][2]);
+						 wallx++;
 					 }
 					 else if (commands[a][0] == 1){
 						 player_1 = gcnew Tanks(commands[a][1], commands[a][2]);
 					 }
 					 else if (commands[a][0] == 2){
-						 array_of_enemyTanks[a] = gcnew AITanks(commands[a][1], commands[a][2], player_1);
+						 array_of_enemyTanks[etankx] = gcnew AITanks(commands[a][1], commands[a][2], player_1);
+						 etankx++;
 					 }
 				 }
 	}
 
 	private: System::Void initCustomCursor(){
-					//Really hard to do without external libraries
-					//"Images/pointer.cur" - cursor file
+				 //Really hard to do without external libraries
+				 //"Images/pointer.cur" - cursor file
 	}
 
 	private: System::Void drawFloor(){
@@ -184,44 +189,55 @@ namespace Project1 {
 
 	private: System::Void drawWalls(){
 				 for (int l = 0; l < array_of_walls->Length; l++){
-					 gBuff->DrawImage(wallBitmap, array_of_walls[l]->get_x(), array_of_walls[l]->get_x());
+					 gBuff->DrawImage(wallBitmap, array_of_walls[l]->get_x(), array_of_walls[l]->get_y());
+				 }
+				 for (int y = 0; y < WORLD_HEIGHT; y += wallBitmap->Height){
+					 gBuff->DrawImage(wallBitmap, 0, y);
+					 gBuff->DrawImage(wallBitmap, WORLD_WIDTH - wallBitmap->Width, y);
+				 }
+				 for (int x = wallBitmap->Width; x < WORLD_WIDTH - wallBitmap->Width; x += wallBitmap->Height){
+					 gBuff->DrawImage(wallBitmap, x, 0);
+					 gBuff->DrawImage(wallBitmap, x, WORLD_HEIGHT - wallBitmap->Height);
 				 }
 	}
-			 
-	private: System::Void drawTanks(){	  
+
+	private: System::Void drawTanks(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
-					 gBuff->DrawImage(tankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_x());
+					 gBuff->DrawImage(enemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
 				 }
+
+				 gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
 	}
-			 
+
 	private: System::Void drawBullets(){
-					for (int l = 0; l < array_of_enemyTanks->Length; l++){
-						for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
-							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
-						}
-					}
+				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
+					 for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
+						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
+					 }
+				 }
 	}
 
 	private: System::Void drawMines(){
-					for (int l = 0; l < array_of_enemyTanks->Length; l++){
-						for (int b = 0; b < array_of_enemyTanks[l]->pocket(); b++){
-							gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getMine(l)->get_x(), array_of_enemyTanks[l]->getMine(l)->get_y());
-						}
-					}
+				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
+					 for (int b = 0; b < array_of_enemyTanks[l]->pocket(); b++){
+						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getMine(l)->get_x(), array_of_enemyTanks[l]->getMine(l)->get_y());
+					 }
+				 }
 	}
-			 
+
 	private: System::Void drawTankGun(){
 				 //not sure exactly how to rotate this yet
 				 //probably should get a bunch of images
-				 gBuff->DrawImage(tankGunBitmap, player_1->get_x(), player_1->get_y());
+				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
-	
+
 	private: System::Void clearBuffer(){
 				 gBuff->FillRectangle(gcnew SolidBrush(Color::White), 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 	}
 
 	private: System::Void updatePlayerTankLocation(){
-				 if (upPressed){
+				 if (upPressed)
+				 {
 					 player_1->move(1);
 				 }
 				 else if (downPressed){
@@ -235,19 +251,16 @@ namespace Project1 {
 					 player_1->move(2);
 				 }
 	}
-			
+
 	private: System::Void updateTanks(){
-				// player_1->update();
-				// for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
-				//	 array_of_enemyTanks[updaterIndex]->update();
+				 player_1->update();
+				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
+					 array_of_enemyTanks[updaterIndex]->update();
 	}
 
-	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				 
-				 int dx = e->X - player_1->get_x();
-				 int dy = e->Y - player_1->get_y();
-
-				 
+	private: System::Void RotateGunToFacePoint(int xx, int yy){
+				 int dx = xx - player_1->get_x();
+				 int dy = yy - player_1->get_y();
 
 				 int angle = Math::Atan2(dy, dx);
 				 //Convert degrees to radians 
@@ -270,6 +283,7 @@ namespace Project1 {
 
 				 int dw = (int)ceil(fabs(maxx) - minx);
 				 int dh = (int)ceil(fabs(maxy) - miny);
+
 				 Bitmap ^DestBitmap = gcnew Bitmap(dw, dh, Imaging::PixelFormat::Format32bppArgb);
 
 				 for (int x = 0; x < dw; x++)
@@ -285,9 +299,32 @@ namespace Project1 {
 						 }
 					 }
 				 }
-				 
+				 rotatedTankGunBitmap = DestBitmap;
 	}
-	
+
+	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+
+				 RotateGunToFacePoint(e->X, e->Y);
+
+	}
+
+	private: System::Void drawWorld(){
+
+				 //updateTanks();
+
+				 clearBuffer();
+				 drawFloor();
+				 drawWalls();
+				 drawMines();
+				 drawBullets();
+				 drawTanks();
+				 drawTankGun();
+
+				 worldPanel->Refresh();
+				 g->DrawImage(buffer, 0, 0);
+
+	}
+
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::W){
 					 upDown = 1;
@@ -332,24 +369,17 @@ namespace Project1 {
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
 				 if (player_1->get_num_bullets() < 5){
-					 //player_1->fire(e->X, e->Y);
+					 player_1->launch(e->X, e->Y);
 				 }
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 updatePlayerTankLocation();
+				 drawWorld();
 	}
 
 	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-				 drawFloor();
-				 drawWalls();
-				 drawMines();
-				 drawBullets();
-				 drawTanks();
-
-				 updateTanks();
-
-				 g->DrawImage(buffer, 0, 0);
+				 drawWorld();
 	}
-};
+	};
 };
