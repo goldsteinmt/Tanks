@@ -12,8 +12,6 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
 	minesPlaced = gcnew array<Mines^, 1>(NUM_MINES_CAN_PLACE);
-
-	currentTank = this;
 }
 
 Bullets^ AITanks::getBullet(int index){
@@ -78,9 +76,16 @@ void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
 bool AITanks::checkCollide(array<Walls^, 1>^ wallsArr, int wallsArrLength){
 	CollisionDetect col;
 	for (int i = 0; i < wallsArrLength; i++){
-		if (col.detectCollide(currentTank, wallsArr[i]))
+		if (col.detectCollide(this, wallsArr[i]))
 			return true;
 	}
 	return false;
 }
 
+void AITanks::die(){
+	dead = true;
+}
+
+bool AITanks::isDead(){
+	return dead;
+}
