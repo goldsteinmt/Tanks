@@ -1,5 +1,5 @@
 #include "AITanks.h"
-#include "Bullets.h"
+
 
 // AUTHOR: Matthew Goldstein
 
@@ -13,6 +13,7 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
 	minesPlaced = gcnew array<Mines^, 1>(NUM_MINES_CAN_PLACE);
 
+	currentTank = this;
 }
 
 Bullets^ AITanks::getBullet(int index){
@@ -25,7 +26,7 @@ Mines^ AITanks::getMine(int index){
 		return minesPlaced[index];
 }
 
-void AITanks::update(){
+void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
 	numUpdates++;
 	if (numUpdates % BULLET_FIRE_RATE == 0){
 		if (num_current_bullets < NUM_BULLETS_CAN_FIRE){
@@ -36,6 +37,10 @@ void AITanks::update(){
 
 	if (numUpdates % MINE_PLACE_RATE == 0 && num_mines_placed < NUM_MINES_CAN_PLACE){
 		minesPlaced[num_mines_placed] = gcnew Mines(x + (width / 2), y + height);
+	}
+
+	if (checkCollide(wallsArr, wallsArrLength)){
+		direction++;
 	}
 
 	if (numUpdates % MOVE_RATE == 0){
@@ -70,6 +75,12 @@ void AITanks::update(){
 	}
 }
 
-void AITanks::move(){
-
+bool AITanks::checkCollide(array<Walls^, 1>^ wallsArr, int wallsArrLength){
+	CollisionDetect col;
+	for (int i = 0; i < wallsArrLength; i++){
+		if (col.detectCollide(currentTank, wallsArr[i]))
+			return true;
+	}
+	return false;
 }
+

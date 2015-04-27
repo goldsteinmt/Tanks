@@ -3,12 +3,15 @@
 #include "Tanks.h"
 #include "Mines.h"
 #include "Bullets.h"
+#include "Walls.h"
+#include "CollisionDetect.h"
 
 // AUTHOR: Matthew Goldstein
 
 ref class AITanks: public Tanks{
 private:
 	Tanks^ player; // holder for player 1 so ai tank can shoot at it
+	AITanks^ currentTank;
 	const int NUM_BULLETS_CAN_FIRE = 5; // number of bullets that can be fired at a time
 	const int NUM_MINES_CAN_PLACE = 3; // number of mines that can be placed at a time
 	const int BULLET_FIRE_RATE = 50; // number of frames between each bullet update
@@ -21,10 +24,10 @@ private:
 	array<Mines^, 1>^ minesPlaced; // holds mines that have been placed
 	int numUpdates = 0; // number of updates 
 	int direction = 0; // (%4) 0 = north, 1 = east, 2 = south, 3 = west
+	bool checkCollide(array<Walls^,1>^, int); // checks if ai tank collided with a wall.
 public:
 	AITanks(int, int, Tanks^); // constructor -- takes the player as an argument to decide when to shoot
-	void move(); // function to decide whether or not to move ai tank and where to move it to
 	Bullets^ getBullet(int); // returns the array of currently live bullets
 	Mines^ getMine(int); // returns the array of currently placed mines
-	void update(); // updates for every redraw
+	void update(array<Walls^, 1>^, int); // updates for every redraw
 };

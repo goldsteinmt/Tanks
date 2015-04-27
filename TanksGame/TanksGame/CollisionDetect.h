@@ -6,5 +6,5 @@
 
 class CollisionDetect {
 public:
-	bool detectCollide(TanksObject, TanksObject); // Check if the two TanksObjects collide
+	bool detectCollide(TanksObject^, TanksObject^); // Check if the two TanksObjects collide
 };
