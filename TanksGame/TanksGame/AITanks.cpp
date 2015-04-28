@@ -78,7 +78,7 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 bool AITanks::checkCollide(array<Walls^, 1>^ wallsArr){
 	CollisionDetect col;
 	for (int i = 0; i < wallsArr->Length; i++){
-		if (col.detectCollide(this, wallsArr[i]))
+		if (col.detectCollide(this, wallsArr[i], direction))
 			return true;
 	}
 	return false;
