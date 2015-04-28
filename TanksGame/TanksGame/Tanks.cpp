@@ -4,22 +4,22 @@ Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updat
 
 Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 
-void Tanks::move(int key){
+void Tanks::move(int key, array<Walls^, 1>^ warray){
 	//for WASD keys
 	//W is 1, D is 2, S is 3, A is 4
-
+	if (checkCollide(warray,key)==false)
 	switch (key){
 	case 1:
-		y--;
+		y-= speed;
 		break;
 	case 2:
-		x++;
+		x+=speed;
 		break;
 	case 3:
-		y++;
+		y+=speed;
 		break;
 	case 4:
-		x--;
+		x-=speed;
 		break;
 	}
 }
@@ -99,4 +99,13 @@ void Tanks::update()
 		}
 	}
 	
+}
+
+bool Tanks::checkCollide(array<Walls^, 1>^ warray, int direction){
+	CollisionDetect col;
+	for (int i = 0; i < warray->Length; i++){
+		if (col.detectCollide(this, warray[i], direction))
+			return true;
+	}
+	return false;
 }

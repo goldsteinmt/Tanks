@@ -13,5 +13,6 @@ public:
 	void fire(int,int);
 	void travel();
 	bool isDead();
+	void die();
 
 };

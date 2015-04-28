@@ -29,3 +29,8 @@ void Bullets::travel(){
 bool Bullets::isDead(){
 	return dead;
 }
+
+
+void Bullets::die(){
+	dead = true;
+}
