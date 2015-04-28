@@ -57,12 +57,14 @@ void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
 	}
 
 	for (int j = 0; j < NUM_BULLETS_CAN_FIRE; j++){
-		if (bulletsShot[j]->isDead()){
-			for (int k = j; k < NUM_BULLETS_CAN_FIRE - 1; k++){
-				bulletsShot[k] = bulletsShot[k + 1];
+		if (bulletsShot[j] != nullptr){
+			if (bulletsShot[j]->isDead()){
+				for (int k = j; k < NUM_BULLETS_CAN_FIRE - 1; k++){
+					bulletsShot[k] = bulletsShot[k + 1];
+				}
+				bulletsShot[NUM_BULLETS_CAN_FIRE - 1] = nullptr;
+				num_current_bullets--;
 			}
-			bulletsShot[NUM_BULLETS_CAN_FIRE - 1] = nullptr;
-			num_current_bullets--;
 		}
 	}
 
