@@ -7,8 +7,8 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 	player = newPlayer;
 	x = newX;
 	y = newY;
-	width = 60; 
-	height = 60; 
+	width = 60;
+	height = 60;
 
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
 	minesPlaced = gcnew array<Mines^, 1>(NUM_MINES_CAN_PLACE);
@@ -24,7 +24,7 @@ Mines^ AITanks::getMine(int index){
 		return minesPlaced[index];
 }
 
-void AITanks::update(array<Walls^,1>^ wallsArr){
+void AITanks::update(array<Walls^, 1>^ wallsArr){
 	numUpdates++;
 	if (numUpdates % BULLET_FIRE_RATE == 0){
 		if (num_current_bullets < NUM_BULLETS_CAN_FIRE){
@@ -42,10 +42,10 @@ void AITanks::update(array<Walls^,1>^ wallsArr){
 	}
 
 	if (numUpdates % MOVE_RATE == 0){
-		if (direction%4 == 0){
+		if (direction % 4 == 0){
 			y -= MOVE_DISTANCE;
 		}
-		else if (direction%4 == 1){
+		else if (direction % 4 == 1){
 			x += MOVE_DISTANCE;
 		}
 		else if (direction % 4 == 2){
