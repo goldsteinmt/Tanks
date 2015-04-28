@@ -4,5 +4,5 @@
 
 ref class Walls : public TanksObject{
 public:
-	Walls(int, int);
+	Walls(int, int, int, int);
 };

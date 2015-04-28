@@ -163,7 +163,7 @@ namespace Project1 {
 
 				 for (int a = 0; a < num_commands; a++){
 					 if (commands[a][0] == 0){
-						 array_of_walls[wallx] = gcnew Walls(commands[a][1], commands[a][2]);
+						 array_of_walls[wallx] = gcnew Walls(commands[a][1], commands[a][2], wallBitmap->Width, wallBitmap->Height);
 						 wallx++;
 					 }
 					 else if (commands[a][0] == 1){
@@ -177,8 +177,7 @@ namespace Project1 {
 	}
 
 	private: System::Void initCustomCursor(){
-				 //Really hard to do without external libraries
-				 //"Images/pointer.cur" - cursor file
+				 
 	}
 
 	private: System::Void drawFloor(){
@@ -257,7 +256,7 @@ namespace Project1 {
 				 
 				 int angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
 				 //Convert degrees to radians 
-				 float radians = angle * (180 / Math::PI);
+				 float radians = angle;// *(180 / Math::PI);
 
 				 float cosine = (float)cos(radians);
 				 float sine = (float)sin(radians);
