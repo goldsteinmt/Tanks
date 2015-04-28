@@ -228,6 +228,7 @@ namespace Project1 {
 	private: System::Void drawTankGun(){
 				 //not sure exactly how to rotate this yet
 				 //probably should get a bunch of images
+				 RotateGunToFacePoint(288, 300);
 				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
@@ -262,19 +263,19 @@ namespace Project1 {
 				 int dx = xx - player_1->get_x();
 				 int dy = yy - player_1->get_y();
 
-				 int angle = Math::Atan2(dy, dx);
+				 int angle = Math::Atan((double)dy / (double)dx);
 				 //Convert degrees to radians 
-				 float radians = (2 * 3.14159 * angle) / 360;
+				 float radians = angle;//(2 * 3.14159 * angle) / 360;
 
 				 float cosine = (float)cos(radians);
 				 float sine = (float)sin(radians);
 
-				 float Point1x = (-tankBitmap->Height*sine);
-				 float Point1y = (tankBitmap->Height*cosine);
-				 float Point2x = (tankBitmap->Width*cosine - tankBitmap->Height*sine);
-				 float Point2y = (tankBitmap->Height*cosine + tankBitmap->Width*sine);
-				 float Point3x = (tankBitmap->Width*cosine);
-				 float Point3y = (tankBitmap->Width*sine);
+				 float Point1x = (-tankGunBitmap->Height*sine);
+				 float Point1y = (tankGunBitmap->Height*cosine);
+				 float Point2x = (tankGunBitmap->Width*cosine - tankGunBitmap->Height*sine);
+				 float Point2y = (tankGunBitmap->Height*cosine + tankGunBitmap->Width*sine);
+				 float Point3x = (tankGunBitmap->Width*cosine);
+				 float Point3y = (tankGunBitmap->Width*sine);
 
 				 float minx = Math::Min(0, (int)Math::Min((int)Point1x, (int)Math::Min(Point2x, Point3x)));
 				 float miny = Math::Min(0, (int)Math::Min((int)Point1y, (int)Math::Min(Point2y, Point3y)));
@@ -292,10 +293,10 @@ namespace Project1 {
 					 {
 						 int SrcBitmapx = (int)((x + minx)*cosine + (y + miny)*sine);
 						 int SrcBitmapy = (int)((y + miny)*cosine - (x + minx)*sine);
-						 if (SrcBitmapx >= 0 && SrcBitmapx < tankBitmap->Width && SrcBitmapy >= 0 &&
-							 SrcBitmapy < tankBitmap->Height)
+						 if (SrcBitmapx >= 0 && SrcBitmapx < tankGunBitmap->Width && SrcBitmapy >= 0 &&
+							 SrcBitmapy < tankGunBitmap->Height)
 						 {
-							 DestBitmap->SetPixel(x, y, tankBitmap->GetPixel(SrcBitmapx, SrcBitmapy));
+							 DestBitmap->SetPixel(x, y, tankGunBitmap->GetPixel(SrcBitmapx, SrcBitmapy));
 						 }
 					 }
 				 }
@@ -312,7 +313,6 @@ namespace Project1 {
 
 				 //updateTanks();
 
-				 clearBuffer();
 				 drawFloor();
 				 drawWalls();
 				 drawMines();
@@ -321,7 +321,8 @@ namespace Project1 {
 				 drawTankGun();
 
 				 worldPanel->Refresh();
-				 g->DrawImage(buffer, 0, 0);
+				 g->DrawImage(buffer, Point(0,0));
+				 clearBuffer();
 
 	}
 
