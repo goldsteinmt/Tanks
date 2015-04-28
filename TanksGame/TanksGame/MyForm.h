@@ -127,6 +127,8 @@ namespace Project1 {
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
+				 game_timer->Start();
+
 				 InitWorldVariables();
 
 				 LoadLevelFromFile();
@@ -191,14 +193,6 @@ namespace Project1 {
 				 for (int l = 0; l < array_of_walls->Length; l++){
 					 gBuff->DrawImage(wallBitmap, array_of_walls[l]->get_x(), array_of_walls[l]->get_y());
 				 }
-				 for (int y = 0; y < WORLD_HEIGHT; y += wallBitmap->Height){
-					 gBuff->DrawImage(wallBitmap, 0, y);
-					 gBuff->DrawImage(wallBitmap, WORLD_WIDTH - wallBitmap->Width, y);
-				 }
-				 for (int x = wallBitmap->Width; x < WORLD_WIDTH - wallBitmap->Width; x += wallBitmap->Height){
-					 gBuff->DrawImage(wallBitmap, x, 0);
-					 gBuff->DrawImage(wallBitmap, x, WORLD_HEIGHT - wallBitmap->Height);
-				 }
 	}
 
 	private: System::Void drawTanks(){
@@ -228,7 +222,6 @@ namespace Project1 {
 	private: System::Void drawTankGun(){
 				 //not sure exactly how to rotate this yet
 				 //probably should get a bunch of images
-				 RotateGunToFacePoint(288, 300);
 				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
@@ -251,21 +244,20 @@ namespace Project1 {
 				 else if (rightPressed){
 					 player_1->move(2);
 				 }
+				 
 	}
 
 	private: System::Void updateTanks(){
-				 player_1->update();
+				 //player_1->update();
 				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
-					 array_of_enemyTanks[updaterIndex]->update();
+					 array_of_enemyTanks[updaterIndex]->update(array_of_walls);
 	}
 
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
-				 int dx = xx - player_1->get_x();
-				 int dy = yy - player_1->get_y();
-
-				 int angle = Math::Atan((double)dy / (double)dx);
+				 
+				 int angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
 				 //Convert degrees to radians 
-				 float radians = angle;//(2 * 3.14159 * angle) / 360;
+				 float radians = angle * (180 / Math::PI);
 
 				 float cosine = (float)cos(radians);
 				 float sine = (float)sin(radians);
@@ -311,7 +303,7 @@ namespace Project1 {
 
 	private: System::Void drawWorld(){
 
-				 //updateTanks();
+				 updateTanks();
 
 				 drawFloor();
 				 drawWalls();
@@ -320,7 +312,6 @@ namespace Project1 {
 				 drawTanks();
 				 drawTankGun();
 
-				 worldPanel->Refresh();
 				 g->DrawImage(buffer, Point(0,0));
 				 clearBuffer();
 
