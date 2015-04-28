@@ -7,7 +7,12 @@ Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 void Tanks::move(int key, array<Walls^, 1>^ warray){
 	//for WASD keys
 	//W is 1, D is 2, S is 3, A is 4
-	if (checkCollide(warray,key)==false)
+
+	if (checkCollide(warray, key))
+		speed = -4;
+	else if (checkCollide(warray, key) == false)
+		speed = 2;
+
 	switch (key){
 	case 1:
 		y-= speed;
@@ -22,6 +27,7 @@ void Tanks::move(int key, array<Walls^, 1>^ warray){
 		x-=speed;
 		break;
 	}
+
 }
 
 int Tanks::pocket() {return num_mines;}
@@ -103,6 +109,7 @@ void Tanks::update()
 
 bool Tanks::checkCollide(array<Walls^, 1>^ warray, int direction){
 	CollisionDetect col;
+	direction--;//to convert to 0123 that collisiondetect uses
 	for (int i = 0; i < warray->Length; i++){
 		if (col.detectCollide(this, warray[i], direction))
 			return true;

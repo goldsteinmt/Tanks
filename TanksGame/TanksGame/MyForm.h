@@ -231,17 +231,17 @@ namespace Project1 {
 	private: System::Void updatePlayerTankLocation(){
 				 if (upPressed)
 				 {
-					 player_1->move(1);
+					 player_1->move(1,array_of_walls);
 				 }
 				 else if (downPressed){
-					 player_1->move(3);
+					 player_1->move(3, array_of_walls);
 				 }
 
 				 if (leftPressed){
-					 player_1->move(4);
+					 player_1->move(4, array_of_walls);
 				 }
 				 else if (rightPressed){
-					 player_1->move(2);
+					 player_1->move(2, array_of_walls);
 				 }
 				 
 	}

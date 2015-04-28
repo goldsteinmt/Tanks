@@ -12,7 +12,7 @@ protected:
 	int maxu = 25;//number of updates after which to draw bullets travelling
 	int maxm = 3;//max mines to be placed
 	int direction;
-	int speed = 5;//move by increments of 5
+	int speed;//movement of tank (determined by collision)
 	array<Bullets^, 1> ^bullets;
 	array<Mines^, 1> ^mines;
 
@@ -26,6 +26,7 @@ public:
 
 	Bullets^ get_bullet(int); 
 	Mines^ get_mine(int);
+
 
 	void move(int key, array<Walls^, 1>^);
 	int pocket();//returns number of mines on screen even though name insinuates the opposite
