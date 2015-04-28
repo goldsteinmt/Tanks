@@ -24,7 +24,7 @@ Mines^ AITanks::getMine(int index){
 		return minesPlaced[index];
 }
 
-void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
+void AITanks::update(array<Walls^,1>^ wallsArr){
 	numUpdates++;
 	if (numUpdates % BULLET_FIRE_RATE == 0){
 		if (num_current_bullets < NUM_BULLETS_CAN_FIRE){
@@ -37,7 +37,7 @@ void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
 		minesPlaced[num_mines_placed] = gcnew Mines(x + (width / 2), y + height);
 	}
 
-	if (checkCollide(wallsArr, wallsArrLength)){
+	if (checkCollide(wallsArr)){
 		direction++;
 	}
 
@@ -75,9 +75,9 @@ void AITanks::update(array<Walls^,1>^ wallsArr, int wallsArrLength){
 	}
 }
 
-bool AITanks::checkCollide(array<Walls^, 1>^ wallsArr, int wallsArrLength){
+bool AITanks::checkCollide(array<Walls^, 1>^ wallsArr){
 	CollisionDetect col;
-	for (int i = 0; i < wallsArrLength; i++){
+	for (int i = 0; i < wallsArr->Length; i++){
 		if (col.detectCollide(this, wallsArr[i]))
 			return true;
 	}
