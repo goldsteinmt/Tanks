@@ -65,6 +65,7 @@ namespace Project1 {
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
+                Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1,1);
 
@@ -208,6 +209,11 @@ namespace Project1 {
 						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
 					 }
 				 }
+                                 
+                                 for (int b = 0; b < player_1->get_num_bullets(); b++){
+						 if (player_1->get_bullet(b) != nullptr)
+							 gBuff->DrawImage(debugBulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
+                                 }
 	}
 
 	private: System::Void drawMines(){
