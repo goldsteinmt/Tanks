@@ -68,7 +68,7 @@ void Tanks::launch(int dx, int dy)
 		num_bullets++;
 		
 		for (int i = 0; i < maxb; i++){
-				if (bullets[i] == nullptr)
+			if (bullets[i] == nullptr)
 			{
 				bullets[i] = gcnew Bullets(x, y, dx, dy); break;
 			}
