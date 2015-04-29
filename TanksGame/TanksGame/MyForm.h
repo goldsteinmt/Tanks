@@ -65,6 +65,7 @@ namespace Project1 {
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
+		Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1,1);
 
@@ -100,6 +101,7 @@ namespace Project1 {
 				 this->worldPanel->Size = System::Drawing::Size(520, 520);
 				 this->worldPanel->TabIndex = 0;
 				 this->worldPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::worldPanel_Paint);
+				 this->worldPanel->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
 				 this->worldPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 // 
 				 // game_timer
@@ -118,7 +120,6 @@ namespace Project1 {
 				 this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 				 this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 				 this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyUp);
-				 this->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
 				 this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 this->ResumeLayout(false);
 
@@ -205,9 +206,15 @@ namespace Project1 {
 	private: System::Void drawBullets(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
+						 if (array_of_enemyTanks[l]->getBullet(l) != nullptr)
 						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
 					 }
 				 }
+					 for (int b = 0; b < player_1->get_num_bullets(); b++){
+						 if (player_1->get_bullet(b) != nullptr)
+							 gBuff->DrawImage(debugBulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
+					 }
+				 
 	}
 
 	private: System::Void drawMines(){
@@ -255,6 +262,9 @@ namespace Project1 {
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
 				 
 				 int angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
+				 if (angle < 0)
+					 angle = 360 - (-angle);
+
 				 //Convert degrees to radians 
 				 float radians = angle;// *(180 / Math::PI);
 
@@ -307,9 +317,10 @@ namespace Project1 {
 				 drawFloor();
 				 drawWalls();
 				 drawMines();
-				 drawBullets();
+				 
 				 drawTanks();
 				 drawTankGun();
+				 drawBullets();
 
 				 g->DrawImage(buffer, Point(0,0));
 				 clearBuffer();
@@ -359,9 +370,8 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
-				 if (player_1->get_num_bullets() < 5){
-					 player_1->launch(e->X, e->Y);
-				 }
+				 player_1->launch(e->X, e->Y);
+				 
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
