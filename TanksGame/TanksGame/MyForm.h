@@ -103,6 +103,7 @@ namespace Project1 {
 				 this->worldPanel->Size = System::Drawing::Size(520, 520);
 				 this->worldPanel->TabIndex = 0;
 				 this->worldPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::worldPanel_Paint);
+				 this->worldPanel->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
 				 this->worldPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 				 // 
 				 // game_timer
@@ -263,7 +264,7 @@ namespace Project1 {
 	}
 
 	private: System::Void updateTanks(){
-				 //player_1->update();
+				 player_1->update();
 				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
 					 array_of_enemyTanks[updaterIndex]->update(array_of_walls);
 	}
@@ -375,9 +376,8 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
-				 if (player_1->get_num_bullets() < 5){
 					 player_1->launch(e->X, e->Y);
-				 }
+				 
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {

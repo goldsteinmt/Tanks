@@ -1,6 +1,16 @@
 #include "Tanks.h"
 
-Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; num_mines = 0; width = 60; height = 60; }
+Tanks::Tanks(int setX, int setY){
+	x = setX;
+	y = setY;
+	num_bullets = 0;
+	num_updates = 0;
+	num_mines = 0;
+	width = 60;
+	height = 60; 	
+	bullets = gcnew array<Bullets^, 1>(maxb);
+	mines = gcnew array<Mines^, 1>(maxm);
+}
 
 Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 
@@ -64,15 +74,9 @@ Mines^ Tanks::get_mine(int num){
 void Tanks::launch(int dx, int dy)
 {
 	if (num_bullets < maxb)
-	{
+	{	
+		bullets[num_bullets] = gcnew Bullets(x, y, dx, dy);
 		num_bullets++;
-		
-		for (int i = 0; i < maxb; i++){
-			if (bullets[i] == nullptr)
-			{
-				bullets[i] = gcnew Bullets(x, y, dx, dy); break;
-			}
-		}
 	}
 }
 
@@ -81,27 +85,31 @@ void Tanks::update()
 	num_updates++;
 
 	if (num_updates % maxu == 0)
-	for (int i = 0; i < maxb; i++){
-		if (bullets[i] != nullptr)
+	for (int i = 0; i < num_bullets; i++){
 			bullets[i]->travel();
 	}
 
 	for (int i = 0; i < maxb; i++){
-		if (bullets[i]->isDead()){
-			for (int j = i; j < (maxb-1); j++){
-				bullets[j] = bullets[j + 1];
+		if (bullets[i] != nullptr){
+			if (bullets[i]->isDead()){
+				for (int j = i; j < (maxb - 1); j++){
+					bullets[j] = bullets[j + 1];
+				}
+				bullets[(maxb - 1)] = nullptr;
+				num_bullets--;
 			}
-			bullets[(maxb-1)] = nullptr;
-			num_bullets--;
 		}
 	}
+
 	for (int i = 0; i < maxm; i++){
-		if (mines[i]->isDead()){
-			for (int j = i; j < (maxm - 1); j++){
-				mines[j] = mines[j + 1];
+		if (mines[i] != nullptr){
+			if (mines[i]->isDead()){
+				for (int j = i; j < (maxm - 1); j++){
+					mines[j] = mines[j + 1];
+				}
+				mines[(maxm - 1)] = nullptr;
+				num_mines--;
 			}
-			mines[(maxm - 1)] = nullptr;
-			num_mines--;
 		}
 	}
 	
