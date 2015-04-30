@@ -1,6 +1,6 @@
 #include "Tanks.h"
 
-Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; num_mines = 0; }
+Tanks::Tanks(int setX, int setY){ x = setX; y = setY; num_bullets = 0; num_updates = 0; num_mines = 0; width = 60; height = 60; }
 
 Tanks::Tanks(){} // Default constructor to prevent errors in other classes
 
@@ -115,4 +115,8 @@ bool Tanks::checkCollide(array<Walls^, 1>^ warray, int direction){
 			return true;
 	}
 	return false;
+}
+
+int Tanks::get_direction(){
+	return direction;
 }

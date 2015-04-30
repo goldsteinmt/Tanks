@@ -31,6 +31,7 @@ public:
 	void move(int key, array<Walls^, 1>^);
 	int pocket();//returns number of mines on screen even though name insinuates the opposite
 	int get_num_bullets();
+	int get_direction();
 	void launch(int, int); //fires bullet
 	void dropMine();
 	void set_mines();

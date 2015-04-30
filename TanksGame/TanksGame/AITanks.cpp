@@ -26,9 +26,10 @@ Mines^ AITanks::getMine(int index){
 
 void AITanks::update(array<Walls^, 1>^ wallsArr){
 	numUpdates++;
+
 	if (numUpdates % BULLET_FIRE_RATE == 0){
 		if (num_current_bullets < NUM_BULLETS_CAN_FIRE){
-			bulletsShot[num_current_bullets] = gcnew Bullets(x, y, player->get_x(), player->get_y());
+			bulletsShot[num_current_bullets] = gcnew Bullets(x, y, player->get_x() + (player->get_width() / 2), player->get_y() + (player->get_height() / 2));
 			num_bullets++;
 		}
 	}
@@ -40,8 +41,9 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 	if (checkCollide(wallsArr)){
 		direction++;
 	}
+	
 
-	if (numUpdates % MOVE_RATE == 0){
+	if (numUpdates % TANK_MOVE_RATE == 0){
 		if (direction % 4 == 0){
 			y -= MOVE_DISTANCE;
 		}
@@ -69,7 +71,7 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 	}
 
 	for (int i = 0; i < NUM_BULLETS_CAN_FIRE; i++){
-		if (bulletsShot[i] != nullptr && numUpdates % MOVE_RATE == 0){
+		if (bulletsShot[i] != nullptr && numUpdates % BULLET_MOVE_RATE == 0){
 			bulletsShot[i]->travel();
 		}
 	}
