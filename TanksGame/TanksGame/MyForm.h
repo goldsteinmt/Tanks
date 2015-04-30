@@ -270,9 +270,9 @@ namespace Project1 {
 
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
 				 
-				 int angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
+				 float angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
 				 //Convert degrees to radians 
-				 float radians = angle;// *(180 / Math::PI);
+				 float radians = angle + (Math::PI / 2); // *(Math::PI / 180);
 
 				 float cosine = (float)cos(radians);
 				 float sine = (float)sin(radians);
