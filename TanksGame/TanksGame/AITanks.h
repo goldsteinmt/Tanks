@@ -18,7 +18,7 @@ private:
 	const int MINE_PLACE_RATE = 150; // number of frames between each mine place
 	const int BULLET_MOVE_RATE = 2; // number of frames between each movement
 	const int TANK_MOVE_RATE = 3; // number of frames between each tank movement
-	const int TANK_ROTATE_RATE = 50; // tank will rotate every this number of updates to simulate random movement
+	const int TANK_ROTATE_RATE = 225; // tank will rotate every this number of updates to simulate random movement
 	const int MOVE_DISTANCE = 5; // number of pixels to move at each update
 	int num_current_bullets = 0; // number of bullets currently existing
 	int num_mines_placed = 0; // number of mines tank has placed

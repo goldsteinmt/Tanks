@@ -41,6 +41,9 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 	if (checkCollide(wallsArr)){
 		direction++;
 	}
+	if (numUpdates % TANK_ROTATE_RATE == 0){
+		direction--;
+	}
 	
 
 	if (numUpdates % TANK_MOVE_RATE == 0){
