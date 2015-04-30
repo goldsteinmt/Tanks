@@ -65,9 +65,11 @@ namespace Project1 {
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
-                Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
+        Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
 		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1,1);
+
+		CollisionDetect *col;
 
 		array<Walls^, 1> ^array_of_walls;
 		array<AITanks^, 1> ^array_of_enemyTanks;
@@ -143,6 +145,8 @@ namespace Project1 {
 				 buffer = gcnew Bitmap(WORLD_WIDTH, WORLD_HEIGHT, Imaging::PixelFormat::Format32bppArgb);
 				 gBuff = Graphics::FromImage(buffer);
 				 g = worldPanel->CreateGraphics();
+
+				 col = new CollisionDetect();
 	}
 
 	private: System::Void LoadLevelFromFile(){
@@ -225,8 +229,6 @@ namespace Project1 {
 	}
 
 	private: System::Void drawTankGun(){
-				 //not sure exactly how to rotate this yet
-				 //probably should get a bunch of images
 				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x(), player_1->get_y());
 	}
 
@@ -234,19 +236,27 @@ namespace Project1 {
 				 gBuff->FillRectangle(gcnew SolidBrush(Color::White), 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 	}
 
+	private: System::Boolean isPlayerCollided(){
+				 for (int x = 0; x < array_of_enemyTanks->Length; x++){
+					 if (col->detectCollide(player_1, array_of_enemyTanks[x], player_1->get_direction()))
+						 return true;
+				 }
+				 return false;
+	}
+
 	private: System::Void updatePlayerTankLocation(){
-				 if (upPressed)
+				 if (upPressed && !isPlayerCollided())
 				 {
 					 player_1->move(1,array_of_walls);
 				 }
-				 else if (downPressed){
+				 else if (downPressed && !isPlayerCollided()){
 					 player_1->move(3, array_of_walls);
 				 }
 
-				 if (leftPressed){
+				 if (leftPressed && !isPlayerCollided()){
 					 player_1->move(4, array_of_walls);
 				 }
-				 else if (rightPressed){
+				 else if (rightPressed && !isPlayerCollided()){
 					 player_1->move(2, array_of_walls);
 				 }
 				 
