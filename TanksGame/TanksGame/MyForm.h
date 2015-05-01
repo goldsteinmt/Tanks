@@ -202,23 +202,29 @@ namespace Project1 {
 
 	private: System::Void drawTanks(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
-					 gBuff->DrawImage(enemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
+					 if (!array_of_enemyTanks[l]->isDead())
+						gBuff->DrawImage(enemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
 				 }
 
-				 gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
+				 if (!player_1->isDead())
+					gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
 	}
 
 	private: System::Void drawBullets(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
-						 // if (array_of_enemyTanks[l]->get_bullet(b) != nullptr)
-						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
+						 if (array_of_enemyTanks[l]->getBullet(b) != nullptr){
+							 if (!array_of_enemyTanks[l]->getBullet(b)->isDead())
+								 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
+						 }
 					 }
 				 }
 
 				 for (int b = 0; b < player_1->get_num_bullets(); b++){
-					 if (player_1->get_bullet(b) != nullptr)
-						 gBuff->DrawImage(debugBulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
+					 if (player_1->get_bullet(b) != nullptr){
+						 if (!player_1->get_bullet(b)->isDead())
+							 gBuff->DrawImage(bulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
+					 }
 				 }
 	}
 
@@ -235,6 +241,7 @@ namespace Project1 {
 	}
 
 	private: System::Void drawTankGun(){
+				 if (!player_1->isDead())
 				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x() - ((rotatedTankGunBitmap->Width - tankBitmap->Width) / 2), player_1->get_y() - ((rotatedTankGunBitmap->Height - tankBitmap->Height) / 2));
 	}
 
@@ -280,12 +287,46 @@ namespace Project1 {
 						 for (int e = 0; e < array_of_walls->Length; e++){
 							 if (col->detectCollide(array_of_enemyTanks[d]->getBullet(w), array_of_walls[e])){
 								 array_of_enemyTanks[d]->getBullet(w)->die();
+								 break;
 							 }
+							
+						 }
+					 }
+				 }
+				 for (int w = 0; w < player_1->get_num_bullets(); w++){
+					 for (int e = 0; e < array_of_walls->Length; e++){
+						 if (col->detectCollide(player_1->get_bullet(w), array_of_walls[e])){
+							 player_1->get_bullet(w)->die();
 							 break;
 						 }
 					 }
 				 }
 
+				 for (int a = 0; a < array_of_enemyTanks->Length; a++){
+					 for (int v = 0; v < player_1->get_num_bullets(); v++){
+						 if (col->detectCollide(player_1->get_bullet(v), array_of_enemyTanks[a])){
+							 player_1->get_bullet(v)->die();
+							 array_of_enemyTanks[a]->die();
+							 game_timer->Stop();
+
+							 MessageBox ^mb;
+							 mb->Show(L"You Win!", L"Game Over");
+						 }
+					 }
+				 }
+
+				 for (int y = 0; y < array_of_enemyTanks->Length; y++){
+					 for (int r = 0; r < array_of_enemyTanks[y]->get_num_bullets(); r++){
+						 if (col->detectCollide(array_of_enemyTanks[y]->getBullet(r), player_1)){
+							 array_of_enemyTanks[y]->getBullet(r)->die();
+							 player_1->die();
+							 game_timer->Stop();
+							 
+							 MessageBox ^mb; 
+							 mb->Show(L"You Lose!", L"Game Over");
+						 }
+					 }
+				 }
 
 	}
 

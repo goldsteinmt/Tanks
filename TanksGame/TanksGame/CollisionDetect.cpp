@@ -16,8 +16,9 @@ bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2){
 	obj2_w = obj2->get_width();
 	obj2_h = obj2->get_height();
 
-	// check x values
-	if ((obj1_x >= (obj2_x - obj1_w) && obj1_x <= (obj2_x + obj2_w)) && ((obj1_y >= (obj2_y - obj1_h)) && (obj1_y <= (obj2_y + obj2_h)))){
+	// check values
+	if ((obj1_x >= (obj2_x - obj1_w) && obj1_x <= (obj2_x + obj2_w)) && 
+		((obj1_y >= (obj2_y - obj1_h)) && (obj1_y <= (obj2_y + obj2_h)))){
 		return true;
 	}
 

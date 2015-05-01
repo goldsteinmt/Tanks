@@ -8,10 +8,10 @@ ref class TanksObject{
 	 *		Bullets Class, the Mines Class, and the Walls Class
 	 */
 protected:
-	int x; // x value of location
-	int y; // y value of location
-	int width; // width of object
-	int height; // height of object
+	int x = 0; // x value of location
+	int y = 0; // y value of location
+	int width = 0; // width of object
+	int height = 0; // height of object
 public:
 	int get_x(); // return x position of the object
 	int get_y(); // return y position of the object

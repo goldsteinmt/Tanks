@@ -29,8 +29,8 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 
 	if (numUpdates % BULLET_FIRE_RATE == 0){
 		if (num_current_bullets < NUM_BULLETS_CAN_FIRE){
-			bulletsShot[num_current_bullets] = gcnew Bullets(x, y, player->get_x() + (player->get_width() / 2), player->get_y() + (player->get_height() / 2));
-			num_bullets++;
+			bulletsShot[num_current_bullets] = gcnew Bullets(x + width/2, y +height/2, player->get_x() + (player->get_width() / 2), player->get_y() + (player->get_height() / 2));
+			num_current_bullets++;
 		}
 	}
 
@@ -96,4 +96,8 @@ void AITanks::die(){
 
 bool AITanks::isDead(){
 	return dead;
+}
+
+int AITanks::get_num_bullets(){
+	return num_current_bullets;
 }

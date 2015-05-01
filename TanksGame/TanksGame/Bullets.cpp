@@ -1,6 +1,8 @@
 #include "Bullets.h"
 Bullets::Bullets(int setX, int setY, int destination_x, int destination_y)
 {
+	width = 10;
+	height = 10;
 	x = setX; y = setY;
 	fire(x, y, destination_x, destination_y);
 }

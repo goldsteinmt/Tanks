@@ -13,6 +13,7 @@ protected:
 	int maxm = 3;//max mines to be placed
 	int direction;
 	int speed;//movement of tank (determined by collision)
+	bool dead = false;
 	array<Bullets^, 1> ^bullets;
 	array<Mines^, 1> ^mines;
 
@@ -36,5 +37,7 @@ public:
 	void dropMine();
 	void set_mines();
 	void set_bullets();
+	bool isDead();
+	void die();
 
 };

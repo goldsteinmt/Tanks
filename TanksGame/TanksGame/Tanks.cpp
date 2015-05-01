@@ -129,3 +129,11 @@ bool Tanks::checkCollide(array<Walls^, 1>^ warray, int direction){
 int Tanks::get_direction(){
 	return direction;
 }
+
+bool Tanks::isDead(){
+	return dead;
+}
+
+void Tanks::die(){
+	dead = true;
+}
