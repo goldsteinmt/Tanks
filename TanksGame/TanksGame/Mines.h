@@ -8,4 +8,5 @@ private:
 public:
 	Mines(int, int);
 	bool isDead();
+	void die();
 };
