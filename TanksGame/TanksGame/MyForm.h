@@ -78,6 +78,7 @@ namespace Project1 {
 
 	private: System::Windows::Forms::Panel^  worldPanel;
 	private: System::Windows::Forms::Timer^  game_timer;
+	private: System::Windows::Forms::Timer^  timer1;
 	private: System::ComponentModel::IContainer^  components;
 
 			 /// <summary>
@@ -94,6 +95,7 @@ namespace Project1 {
 				 this->components = (gcnew System::ComponentModel::Container());
 				 this->worldPanel = (gcnew System::Windows::Forms::Panel());
 				 this->game_timer = (gcnew System::Windows::Forms::Timer(this->components));
+				 this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 				 this->SuspendLayout();
 				 // 
 				 // worldPanel
@@ -110,6 +112,10 @@ namespace Project1 {
 				 // 
 				 this->game_timer->Interval = 20;
 				 this->game_timer->Tick += gcnew System::EventHandler(this, &MyForm::game_timer_Tick);
+				 // 
+				 // timer1
+				 // 
+				 this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 				 // 
 				 // MyForm
 				 // 
@@ -129,9 +135,12 @@ namespace Project1 {
 			 }
 #pragma endregion
 
+			 int gx = 0, gy = 0;
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
 				 game_timer->Start();
+				 timer1->Start();
 
 				 InitWorldVariables();
 
@@ -332,49 +341,13 @@ namespace Project1 {
 
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
 
-				 float angle = Math::Atan2(yy - (player_1->get_y() + (tankBitmap->Height / 2)), xx - (player_1->get_x() + (tankBitmap->Width / 2)));
-				 //Convert degrees to radians 
-				 float radians = angle + (Math::PI / 2); // *(Math::PI / 180);
-
-				 float cosine = (float)cos(radians);
-				 float sine = (float)sin(radians);
-
-				 float Point1x = (-tankGunBitmap->Height*sine);
-				 float Point1y = (tankGunBitmap->Height*cosine);
-				 float Point2x = (tankGunBitmap->Width*cosine - tankGunBitmap->Height*sine);
-				 float Point2y = (tankGunBitmap->Height*cosine + tankGunBitmap->Width*sine);
-				 float Point3x = (tankGunBitmap->Width*cosine);
-				 float Point3y = (tankGunBitmap->Width*sine);
-
-				 float minx = Math::Min(0, (int)Math::Min((int)Point1x, (int)Math::Min(Point2x, Point3x)));
-				 float miny = Math::Min(0, (int)Math::Min((int)Point1y, (int)Math::Min(Point2y, Point3y)));
-				 float maxx = Math::Max((int)Point1x, (int)Math::Max(Point2x, Point3x));
-				 float maxy = Math::Max((int)Point1y, (int)Math::Max(Point2y, Point3y));
-
-				 int dw = (int)ceil(fabs(maxx) - minx);
-				 int dh = (int)ceil(fabs(maxy) - miny);
-
-				 Bitmap ^DestBitmap = gcnew Bitmap(dw, dh, Imaging::PixelFormat::Format32bppArgb);
-
-				 for (int x = 0; x < dw; x++)
-				 {
-					 for (int y = 0; y < dh; y++)
-					 {
-						 int SrcBitmapx = (int)((x + minx)*cosine + (y + miny)*sine);
-						 int SrcBitmapy = (int)((y + miny)*cosine - (x + minx)*sine);
-						 if (SrcBitmapx >= 0 && SrcBitmapx < tankGunBitmap->Width && SrcBitmapy >= 0 &&
-							 SrcBitmapy < tankGunBitmap->Height)
-						 {
-							 DestBitmap->SetPixel(x, y, tankGunBitmap->GetPixel(SrcBitmapx, SrcBitmapy));
-						 }
-					 }
-				 }
-				 rotatedTankGunBitmap = DestBitmap;
+				
 	}
 
 	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
-				 RotateGunToFacePoint(e->X, e->Y);
+				 gx = e->X;
+				 gy = e->Y;
 
 	}
 
@@ -449,5 +422,46 @@ namespace Project1 {
 	private: System::Void worldPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				 drawWorld();
 	}
-	};
+	
+	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+				 float angle = Math::Atan2(gy - (player_1->get_y() + (tankBitmap->Height / 2)), gx - (player_1->get_x() + (tankBitmap->Width / 2)));
+				 //Convert degrees to radians 
+				 float radians = angle + (Math::PI / 2); // *(Math::PI / 180);
+
+				 float cosine = (float)cos(radians);
+				 float sine = (float)sin(radians);
+
+				 float Point1x = (-tankGunBitmap->Height*sine);
+				 float Point1y = (tankGunBitmap->Height*cosine);
+				 float Point2x = (tankGunBitmap->Width*cosine - tankGunBitmap->Height*sine);
+				 float Point2y = (tankGunBitmap->Height*cosine + tankGunBitmap->Width*sine);
+				 float Point3x = (tankGunBitmap->Width*cosine);
+				 float Point3y = (tankGunBitmap->Width*sine);
+
+				 float minx = Math::Min(0, (int)Math::Min((int)Point1x, (int)Math::Min(Point2x, Point3x)));
+				 float miny = Math::Min(0, (int)Math::Min((int)Point1y, (int)Math::Min(Point2y, Point3y)));
+				 float maxx = Math::Max((int)Point1x, (int)Math::Max(Point2x, Point3x));
+				 float maxy = Math::Max((int)Point1y, (int)Math::Max(Point2y, Point3y));
+
+				 int dw = (int)ceil(fabs(maxx) - minx);
+				 int dh = (int)ceil(fabs(maxy) - miny);
+
+				 Bitmap ^DestBitmap = gcnew Bitmap(dw, dh, Imaging::PixelFormat::Format32bppArgb);
+
+				 for (int x = 0; x < dw; x++)
+				 {
+					 for (int y = 0; y < dh; y++)
+					 {
+						 int SrcBitmapx = (int)((x + minx)*cosine + (y + miny)*sine);
+						 int SrcBitmapy = (int)((y + miny)*cosine - (x + minx)*sine);
+						 if (SrcBitmapx >= 0 && SrcBitmapx < tankGunBitmap->Width && SrcBitmapy >= 0 &&
+							 SrcBitmapy < tankGunBitmap->Height)
+						 {
+							 DestBitmap->SetPixel(x, y, tankGunBitmap->GetPixel(SrcBitmapx, SrcBitmapy));
+						 }
+					 }
+				 }
+				 rotatedTankGunBitmap = DestBitmap;
+	}
+};
 };
