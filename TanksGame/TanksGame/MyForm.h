@@ -65,9 +65,9 @@ namespace Project1 {
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
-        Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
+		Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
-		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1,1);
+		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1, 1);
 
 		CollisionDetect *col;
 
@@ -183,7 +183,7 @@ namespace Project1 {
 	}
 
 	private: System::Void initCustomCursor(){
-				 
+
 	}
 
 	private: System::Void drawFloor(){
@@ -211,14 +211,15 @@ namespace Project1 {
 	private: System::Void drawBullets(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
+						 // if (array_of_enemyTanks[l]->get_bullet(b) != nullptr)
 						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getBullet(l)->get_x(), array_of_enemyTanks[l]->getBullet(l)->get_y());
 					 }
 				 }
-                                 
-                                 for (int b = 0; b < player_1->get_num_bullets(); b++){
-						 if (player_1->get_bullet(b) != nullptr)
-							 gBuff->DrawImage(debugBulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
-                                 }
+
+				 for (int b = 0; b < player_1->get_num_bullets(); b++){
+					 if (player_1->get_bullet(b) != nullptr)
+						 gBuff->DrawImage(debugBulletBitmap, player_1->get_bullet(b)->get_x(), player_1->get_bullet(b)->get_y());
+				 }
 	}
 
 	private: System::Void drawMines(){
@@ -229,7 +230,7 @@ namespace Project1 {
 				 }
 				 for (int q = 0; q < 3; q++){
 					 if (player_1->get_mine(q) != nullptr)
-					 gBuff->DrawImage(mineBitmap, player_1->get_mine(q)->get_x(), player_1->get_mine(q)->get_y());
+						 gBuff->DrawImage(mineBitmap, player_1->get_mine(q)->get_x(), player_1->get_mine(q)->get_y());
 				 }
 	}
 
@@ -252,7 +253,7 @@ namespace Project1 {
 	private: System::Void updatePlayerTankLocation(){
 				 if (upPressed && !isPlayerCollided())
 				 {
-					 player_1->move(1,array_of_walls);
+					 player_1->move(1, array_of_walls);
 				 }
 				 else if (downPressed && !isPlayerCollided()){
 					 player_1->move(3, array_of_walls);
@@ -264,7 +265,7 @@ namespace Project1 {
 				 else if (rightPressed && !isPlayerCollided()){
 					 player_1->move(2, array_of_walls);
 				 }
-				 
+
 	}
 
 	private: System::Void updateTanks(){
@@ -273,8 +274,23 @@ namespace Project1 {
 					 array_of_enemyTanks[updaterIndex]->update(array_of_walls);
 	}
 
+	private: System::Void updateBullets(){
+				 for (int d = 0; d < array_of_enemyTanks->Length; d++){
+					 for (int w = 0; w < array_of_enemyTanks[d]->get_num_bullets(); w++){
+						 for (int e = 0; e < array_of_walls->Length; e++){
+							 if (col->detectCollide(array_of_enemyTanks[d]->getBullet(w), array_of_walls[e])){
+								 array_of_enemyTanks[d]->getBullet(w)->die();
+							 }
+							 break;
+						 }
+					 }
+				 }
+
+
+	}
+
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
-				 
+
 				 float angle = Math::Atan2(yy - (player_1->get_y() + (tankBitmap->Height / 2)), xx - (player_1->get_x() + (tankBitmap->Width / 2)));
 				 //Convert degrees to radians 
 				 float radians = angle + (Math::PI / 2); // *(Math::PI / 180);
@@ -323,8 +339,6 @@ namespace Project1 {
 
 	private: System::Void drawWorld(){
 
-				 updateTanks();
-
 				 drawFloor();
 				 drawWalls();
 				 drawMines();
@@ -332,7 +346,7 @@ namespace Project1 {
 				 drawTanks();
 				 drawTankGun();
 
-				 g->DrawImage(buffer, Point(0,0));
+				 g->DrawImage(buffer, Point(0, 0));
 				 clearBuffer();
 
 	}
@@ -380,12 +394,14 @@ namespace Project1 {
 
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 //shoot bullet
-					 player_1->launch(e->X, e->Y);
-				 
+				 player_1->launch(e->X, e->Y);
+
 	}
 
 	private: System::Void game_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 updatePlayerTankLocation();
+				 updateTanks();
+				 updateBullets();
 				 drawWorld();
 	}
 

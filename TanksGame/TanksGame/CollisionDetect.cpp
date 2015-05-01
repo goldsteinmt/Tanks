@@ -3,6 +3,9 @@
 // AUTHOR: Matthew Goldstein
 
 bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2){
+	if (obj1 == nullptr || obj2 == nullptr){
+		return false;
+	}
 	int obj1_x, obj1_y, obj1_w, obj1_h, obj2_x, obj2_y, obj2_w, obj2_h; // x, y, width and height of both objects
 	obj1_x = obj1->get_x();
 	obj1_y = obj1->get_y();
@@ -27,6 +30,9 @@ bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2){
 }
 
 bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2, int direction){
+	if (obj1 == nullptr || obj2 == nullptr){
+		return false;
+	}
 	int obj1_x, obj1_y, obj1_w, obj1_h, obj2_x, obj2_y, obj2_w, obj2_h; // x, y, width and height of both objects
 	int dir = direction % 4;
 	obj1_x = obj1->get_x();
