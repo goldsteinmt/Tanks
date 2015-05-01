@@ -224,13 +224,17 @@ namespace Project1 {
 	private: System::Void drawMines(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 for (int b = 0; b < array_of_enemyTanks[l]->pocket(); b++){
-						 gBuff->DrawImage(bulletBitmap, array_of_enemyTanks[l]->getMine(l)->get_x(), array_of_enemyTanks[l]->getMine(l)->get_y());
+						 gBuff->DrawImage(mineBitmap, array_of_enemyTanks[l]->getMine(l)->get_x(), array_of_enemyTanks[l]->getMine(l)->get_y());
 					 }
+				 }
+				 for (int q = 0; q < 3; q++){
+					 if (player_1->get_mine(q) != nullptr)
+					 gBuff->DrawImage(mineBitmap, player_1->get_mine(q)->get_x(), player_1->get_mine(q)->get_y());
 				 }
 	}
 
 	private: System::Void drawTankGun(){
-				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x(), player_1->get_y());
+				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x() - ((rotatedTankGunBitmap->Width - tankBitmap->Width) / 2), player_1->get_y() - ((rotatedTankGunBitmap->Height - tankBitmap->Height) / 2));
 	}
 
 	private: System::Void clearBuffer(){
@@ -271,7 +275,7 @@ namespace Project1 {
 
 	private: System::Void RotateGunToFacePoint(int xx, int yy){
 				 
-				 float angle = Math::Atan2(yy - player_1->get_y(), xx - player_1->get_x());
+				 float angle = Math::Atan2(yy - (player_1->get_y() + (tankBitmap->Height / 2)), xx - (player_1->get_x() + (tankBitmap->Width / 2)));
 				 //Convert degrees to radians 
 				 float radians = angle + (Math::PI / 2); // *(Math::PI / 180);
 
