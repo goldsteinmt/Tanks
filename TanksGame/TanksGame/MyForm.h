@@ -134,16 +134,20 @@ namespace Project1 {
 
 			 }
 #pragma endregion
-
+			
+			 //points where playe r_1 gun is facing
 			 int gx = 0, gy = 0;
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
+				 //starts both timers
 				 game_timer->Start();
 				 timer1->Start();
 
+				 //initializes graphics objects and buffer
 				 InitWorldVariables();
 
+				 //loads level data
 				 LoadLevelFromFile();
 	}
 
@@ -209,6 +213,7 @@ namespace Project1 {
 				 }
 	}
 
+			 //if the tanks aren't dead - draw them
 	private: System::Void drawTanks(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 if (!array_of_enemyTanks[l]->isDead())
@@ -219,6 +224,7 @@ namespace Project1 {
 					gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
 	}
 
+			 //if the bullets aren't dead and are not nullptr - draw them
 	private: System::Void drawBullets(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
 					 for (int b = 0; b < array_of_enemyTanks[l]->get_num_bullets(); b++){
@@ -249,6 +255,7 @@ namespace Project1 {
 				 }
 	}
 
+			 //if the player isn't dead - draw the gun
 	private: System::Void drawTankGun(){
 				 if (!player_1->isDead())
 				 gBuff->DrawImage(rotatedTankGunBitmap, player_1->get_x() - ((rotatedTankGunBitmap->Width - tankBitmap->Width) / 2), player_1->get_y() - ((rotatedTankGunBitmap->Height - tankBitmap->Height) / 2));
@@ -266,6 +273,7 @@ namespace Project1 {
 				 return false;
 	}
 
+			 //moves player based on the key pressed
 	private: System::Void updatePlayerTankLocation(){
 				 if (upPressed && !isPlayerCollided())
 				 {
@@ -284,12 +292,14 @@ namespace Project1 {
 
 	}
 
+			 //calls update on all tanks
 	private: System::Void updateTanks(){
 				 player_1->update();
 				 for (int updaterIndex = 0; updaterIndex < array_of_enemyTanks->Length; updaterIndex++)
 					 array_of_enemyTanks[updaterIndex]->update(array_of_walls);
 	}
 
+			 //checks if the bullets collided with anything and deletes them accordingly
 	private: System::Void updateBullets(){
 				 for (int d = 0; d < array_of_enemyTanks->Length; d++){
 					 for (int w = 0; w < array_of_enemyTanks[d]->get_num_bullets(); w++){
@@ -339,18 +349,6 @@ namespace Project1 {
 
 	}
 
-	private: System::Void RotateGunToFacePoint(int xx, int yy){
-
-				
-	}
-
-	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-
-				 gx = e->X;
-				 gy = e->Y;
-
-	}
-
 	private: System::Void drawWorld(){
 
 				 drawFloor();
@@ -362,6 +360,14 @@ namespace Project1 {
 
 				 g->DrawImage(buffer, Point(0, 0));
 				 clearBuffer();
+
+	}
+
+			 //sets the gun point location
+	private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+
+				 gx = e->X;
+				 gy = e->Y;
 
 	}
 
