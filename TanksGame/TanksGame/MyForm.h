@@ -67,7 +67,7 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
-		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1, 1);
+		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1, 1); //placeholder
 
 		CollisionDetect *col;
 
