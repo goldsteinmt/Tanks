@@ -36,6 +36,7 @@ void AITanks::update(array<Walls^, 1>^ wallsArr){
 
 	if (numUpdates % MINE_PLACE_RATE == 0 && num_mines_placed < NUM_MINES_CAN_PLACE){
 		minesPlaced[num_mines_placed] = gcnew Mines(x + (width / 2), y + height);
+		num_mines_placed++;
 	}
 
 	if (checkCollide(wallsArr)){
