@@ -9,7 +9,7 @@ ref class Tanks: public TanksObject{
 protected:
 	int num_mines, num_bullets, num_updates;
 	int maxb = 5; //max bullets on screen
-	int maxu = 2;//number of updates after which to draw bullets travelling
+	int maxu = 2;//number of updates after which to draw bullets traveling
 	int maxm = 3;//max mines to be placed
 	int direction;
 	int speed;//movement of tank (determined by collision)

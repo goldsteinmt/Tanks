@@ -47,7 +47,7 @@ int Tanks::get_num_bullets() { return num_bullets; }
 void Tanks::dropMine() { 
 	if (num_mines < maxm)
 	{
-		mines[num_mines] = gcnew Mines(x, y+20);
+		mines[num_mines] = gcnew Mines(x+(width/2.0), y+height+10);
 		num_mines++;
 
 	}
@@ -76,7 +76,7 @@ void Tanks::launch(int dx, int dy)
 {
 	if (num_bullets < maxb)
 	{	
-		bullets[num_bullets] = gcnew Bullets(x, y, dx, dy);
+		bullets[num_bullets] = gcnew Bullets(x+(width/2.0), y+(height/2.0), dx, dy);
 		num_bullets++;
 	}
 }
