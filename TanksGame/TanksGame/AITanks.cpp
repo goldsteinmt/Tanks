@@ -12,6 +12,13 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
 	minesPlaced = gcnew array<Mines^, 1>(NUM_MINES_CAN_PLACE);
+
+	for (int i = 0; i < NUM_BULLETS_CAN_FIRE; i++){
+		bulletsShot[i] = nullptr;
+	}
+	for (int m = 0; m < NUM_MINES_CAN_PLACE; m++){
+		minesPlaced[m] = nullptr;
+	}
 }
 
 Bullets^ AITanks::getBullet(int index){
