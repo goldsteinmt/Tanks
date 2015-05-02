@@ -6,8 +6,8 @@ Tanks::Tanks(int setX, int setY){
 	num_bullets = 0;
 	num_updates = 0;
 	num_mines = 0;
-	width = 60;
-	height = 60; 	
+	width = 50;
+	height = 50; 	
 	bullets = gcnew array<Bullets^, 1>(maxb);
 	mines = gcnew array<Mines^, 1>(maxm);
 }
@@ -21,7 +21,7 @@ void Tanks::move(int key, array<Walls^, 1>^ warray){
 	if (checkCollide(warray, key))
 		speed = 0;
 	else if (checkCollide(warray, key) == false)
-		speed = 2;
+		speed = 4;
 
 	switch (key){
 	case 1:

@@ -49,7 +49,7 @@ namespace Project1 {
 
 	private:
 		int WORLD_WIDTH, WORLD_HEIGHT, leftRight = 0, upDown = 0;
-		bool upPressed = false, downPressed = false, rightPressed = false, leftPressed = false;
+		bool upPressed = false, downPressed = false, rightPressed = false, leftPressed = false, mPaused = false;
 
 		int** commands;
 
@@ -67,6 +67,7 @@ namespace Project1 {
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
+		Bitmap ^pausedBitmap = gcnew Bitmap("Images/paused.png");
 		Bitmap ^rotatedTankGunBitmap = gcnew Bitmap(1, 1); //placeholder
 
 		CollisionDetect *col;
@@ -138,16 +139,42 @@ namespace Project1 {
 			 //points where playe r_1 gun is facing
 			 int gx = 0, gy = 0;
 
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-
-				 //starts both timers
-				 game_timer->Start();
-				 timer1->Start();
-
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	{
 				 //initializes graphics objects and buffer
 				 InitWorldVariables();
 
 				 //loads level data
+				 LoadLevelFromFile();
+	}
+
+	private: System::Void startTimers(){
+				//starts both timers
+				game_timer->Start();
+				timer1->Start();
+	}
+
+	private: System::Void stopTimers(){
+				//starts both timers
+				game_timer->Stop();
+				timer1->Stop();
+	}
+
+	private: System::Void togglePause(){
+				 if (mPaused = !mPaused){
+					 stopTimers();
+					 g->DrawImage(pausedBitmap, 40, 170);
+				 }
+				 else{
+					 startTimers();
+				 }
+	}
+
+	private: System::Void reset(){
+				 upPressed = false;
+				 downPressed = false;
+				 leftPressed = false;
+				 rightPressed = false;
 				 LoadLevelFromFile();
 	}
 
@@ -193,6 +220,7 @@ namespace Project1 {
 						 etankx++;
 					 }
 				 }
+				 startTimers();
 	}
 
 	private: System::Void initCustomCursor(){
@@ -326,7 +354,8 @@ namespace Project1 {
 						 if (col->detectCollide(player_1->get_bullet(v), array_of_enemyTanks[a])){
 							 player_1->get_bullet(v)->die();
 							 array_of_enemyTanks[a]->die();
-							 game_timer->Stop();
+							 
+							 stopTimers();
 
 							 MessageBox ^mb;
 							 mb->Show(L"You Win!", L"Game Over");
@@ -339,7 +368,8 @@ namespace Project1 {
 						 if (col->detectCollide(array_of_enemyTanks[y]->getBullet(r), player_1)){
 							 array_of_enemyTanks[y]->getBullet(r)->die();
 							 player_1->die();
-							 game_timer->Stop();
+							 
+							 stopTimers();
 							 
 							 MessageBox ^mb; 
 							 mb->Show(L"You Lose!", L"Game Over");
@@ -387,6 +417,12 @@ namespace Project1 {
 				 if (e->KeyCode == Keys::D){
 					 leftRight = 1;
 					 rightPressed = true;
+				 }
+				 if (e->KeyCode == Keys::R){
+					 reset();
+				 }
+				 if (e->KeyCode == Keys::P){
+					 togglePause();
 				 }
 				 if (e->KeyCode == Keys::Space){
 					 player_1->dropMine();
