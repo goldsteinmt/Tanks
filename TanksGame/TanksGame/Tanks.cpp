@@ -19,7 +19,7 @@ void Tanks::move(int key, array<Walls^, 1>^ warray){
 	//W is 1, D is 2, S is 3, A is 4
 
 	if (checkCollide(warray, key))
-		speed = -4;
+		speed = 0;
 	else if (checkCollide(warray, key) == false)
 		speed = 2;
 

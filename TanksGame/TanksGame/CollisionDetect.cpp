@@ -1,6 +1,6 @@
 #include "CollisionDetect.h"
 
-// AUTHOR: Matthew Goldstein
+// AUTHOR: Joseph Chouinard
 
 bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2){
 	if (obj1 == nullptr || obj2 == nullptr){
@@ -41,24 +41,20 @@ bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2, int di
 	obj2_h = obj2->get_height();
 
 	switch (dir){
-	case 0: // moving up
-		if ((obj1_x >= obj2_x && obj1_x <= (obj2_x + obj2_w)) &&
-			(obj1_y <= (obj2_y + obj2_h) && ((obj1_y + obj1_h) >= (obj2_y + obj2_h))))
+	case 0: // moving up - new
+		if ((obj1_x > (obj2_x - obj1_w) && obj1_x < (obj2_x + obj2_w)) && ((obj1_y >= obj2_y) && (obj1_y <= obj2_y + obj2_h)))
 			return true;
 		return false;
-	case 1: // moving right
-		if ((obj1_y >= obj2_y && obj1_y <= (obj2_y + obj2_h)) &&
-			((obj1_x + obj1_w) >= obj2_x && ((obj1_x + obj1_w) <= (obj2_x + obj2_w))))
+	case 1: // moving right - new
+		if ((obj1_x + obj1_w >= obj2_x && obj1_x + obj1_w <= (obj2_x + obj2_w)) && ((obj1_y > obj2_y - obj1_h) && (obj1_y < obj2_y + obj2_h)))
 			return true;
 		return false;
-	case 2: // moving down
-		if ((obj1_x >= obj2_x && obj1_x <= (obj2_x + obj2_w)) &&
-			((obj1_y + obj1_h) >= obj2_y && ((obj1_y + obj1_h) <= (obj2_y + obj2_h))))
+	case 2: // moving down new
+		if ((obj1_x > (obj2_x - obj1_w) && obj1_x < (obj2_x + obj2_w)) && ((obj1_y + obj1_h >= obj2_y) && (obj1_y + obj1_h <= obj2_y + obj2_h)))
 			return true;
 		return false;
-	case 3: // moving left
-		if ((obj1_y >= obj2_y && obj1_y <= (obj2_y + obj2_h)) &&
-			(obj1_x <= (obj2_x + obj2_w) && ((obj1_x + obj1_w) >= obj2_x)))
+	case 3: // moving left - new
+		if ((obj1_x >= obj2_x && obj1_x <= (obj2_x + obj2_w)) && ((obj1_y > obj2_y - obj1_h) && (obj1_y < obj2_y + obj2_h)))
 			return true;
 		return false;
 	default: // should never get here
