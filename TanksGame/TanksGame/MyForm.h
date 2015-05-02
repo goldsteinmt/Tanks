@@ -392,6 +392,30 @@ namespace Project1 {
 
 	}
 
+	private: System::Void updateMines(){
+				 for (int y = 0; y < array_of_enemyTanks->Length; y++){
+					 for (int x = 0; x < array_of_enemyTanks[y]->get_num_mines(); x++){
+						 if (col->detectCollide(player_1, array_of_enemyTanks[y]->getMine(x))){
+							 player_1->die();
+							 stopTimers();
+							 MessageBox ^mb;
+							 mb->Show(L"You Lose!", L"Game Over");
+						 }
+					 }
+				 }
+				 for (int y = 0; y < array_of_enemyTanks->Length; y++){
+					 for (int p = 0; p < player_1->pocket(); p++)
+						 if (col->detectCollide(array_of_enemyTanks[y], player_1->get_mine(p))){
+							 array_of_enemyTanks[y]->die();
+							 stopTimers();
+							 MessageBox ^mb;
+							 mb->Show(L"You Win!", L"Game Over");
+						 }
+					 
+				 }
+				 
+	}
+
 	private: System::Void drawWorld(){
 
 				 drawFloor();
@@ -471,6 +495,7 @@ namespace Project1 {
 				 updatePlayerTankLocation();
 				 updateTanks();
 				 updateBullets();
+				 updateMines();
 				 drawWorld();
 	}
 
