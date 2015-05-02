@@ -163,7 +163,7 @@ namespace Project1 {
 	private: System::Void togglePause(){
 				 if (mPaused = !mPaused){
 					 stopTimers();
-					 g->DrawImage(pausedBitmap, 50, 150);
+					 g->DrawImage(pausedBitmap, 40, 170);
 				 }
 				 else{
 					 startTimers();
