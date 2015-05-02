@@ -65,7 +65,7 @@ namespace Project1 {
 		Bitmap ^enemyTankBitmap = gcnew Bitmap("Images/enemy_tank.png");
 		Bitmap ^horizontalEnemyTankBitmap = gcnew Bitmap("Images/enemy_tank_horizontal.png");
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
-		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
+		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png"); //UPLOAD CODE TO LMS
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
 		Bitmap ^debugBulletBitmap = gcnew Bitmap("Images/debugBullet.png");
 		Bitmap ^pointerBitmap = gcnew Bitmap("Images/pointer.png");
