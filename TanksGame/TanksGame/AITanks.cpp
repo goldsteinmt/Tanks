@@ -7,8 +7,8 @@ AITanks::AITanks(int newX, int newY, Tanks^ newPlayer){
 	player = newPlayer;
 	x = newX;
 	y = newY;
-	width = 60;
-	height = 60;
+	width = 50;
+	height = 50;
 
 	bulletsShot = gcnew array<Bullets^, 1>(NUM_BULLETS_CAN_FIRE);
 	minesPlaced = gcnew array<Mines^, 1>(NUM_MINES_CAN_PLACE);
