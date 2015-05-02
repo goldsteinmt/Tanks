@@ -112,3 +112,7 @@ int AITanks::get_num_bullets(){
 int AITanks::getDirection(){
 	return direction;
 }
+
+int AITanks::get_num_mines(){
+	return num_mines_placed;
+}

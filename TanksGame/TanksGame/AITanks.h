@@ -35,5 +35,6 @@ public:
 	Mines^ getMine(int); // returns the array of currently placed mines
 	void update(array<Walls^, 1>^); // updates for every redraw
 	int get_num_bullets();
+	int get_num_mines();
 	int getDirection();
 };
