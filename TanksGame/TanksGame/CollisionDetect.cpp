@@ -50,7 +50,7 @@ bool CollisionDetect::detectCollide(TanksObject ^obj1, TanksObject ^obj2, int di
 			return true;
 		return false;
 	case 2: // moving down new
-		if ((obj1_x > (obj2_x - obj1_w) && obj1_x < (obj2_x + obj2_w)) && ((obj1_y + obj1_h >= obj2_y) && (obj1_y + obj1_h <= obj2_y + obj2_h)))
+		if ((obj1_x >(obj2_x - obj1_w) && obj1_x < (obj2_x + obj2_w)) && ((obj1_y + obj1_h >= obj2_y) && (obj1_y + obj1_h <= obj2_y + obj2_h)))
 			return true;
 		return false;
 	case 3: // moving left - new

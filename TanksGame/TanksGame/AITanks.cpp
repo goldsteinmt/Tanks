@@ -101,3 +101,7 @@ bool AITanks::isDead(){
 int AITanks::get_num_bullets(){
 	return num_current_bullets;
 }
+
+int AITanks::getDirection(){
+	return direction;
+}

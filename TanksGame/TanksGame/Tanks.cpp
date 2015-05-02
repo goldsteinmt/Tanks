@@ -25,15 +25,19 @@ void Tanks::move(int key, array<Walls^, 1>^ warray){
 
 	switch (key){
 	case 1:
+		direction = 0;
 		y-= speed;
 		break;
 	case 2:
+		direction = 1;
 		x+=speed;
 		break;
 	case 3:
+		direction = 2;
 		y+=speed;
 		break;
 	case 4:
+		direction = 3;
 		x-=speed;
 		break;
 	}

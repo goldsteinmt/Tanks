@@ -61,7 +61,9 @@ namespace Project1 {
 		Bitmap ^floorBitmap = gcnew Bitmap("Images/floor.png");
 		Bitmap ^wallBitmap = gcnew Bitmap("Images/wall.png");
 		Bitmap ^tankBitmap = gcnew Bitmap("Images/tank.png");
+		Bitmap ^horizontalTankBitmap = gcnew Bitmap("Images/tank_horizontal.png");
 		Bitmap ^enemyTankBitmap = gcnew Bitmap("Images/enemy_tank.png");
+		Bitmap ^horizontalEnemyTankBitmap = gcnew Bitmap("Images/enemy_tank_horizontal.png");
 		Bitmap ^tankGunBitmap = gcnew Bitmap("Images/tank_gun.png");
 		Bitmap ^mineBitmap = gcnew Bitmap("Images/mine.png");
 		Bitmap ^bulletBitmap = gcnew Bitmap("Images/bullet.png");
@@ -244,12 +246,23 @@ namespace Project1 {
 			 //if the tanks aren't dead - draw them
 	private: System::Void drawTanks(){
 				 for (int l = 0; l < array_of_enemyTanks->Length; l++){
-					 if (!array_of_enemyTanks[l]->isDead())
-						gBuff->DrawImage(enemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
+					 if (!array_of_enemyTanks[l]->isDead()){
+						 if (array_of_enemyTanks[l]->getDirection() % 2 == 0){
+							 gBuff->DrawImage(enemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
+						 }
+						 else{
+							 gBuff->DrawImage(horizontalEnemyTankBitmap, array_of_enemyTanks[l]->get_x(), array_of_enemyTanks[l]->get_y());
+						 }
+					 }
 				 }
 
-				 if (!player_1->isDead())
-					gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
+				 if (!player_1->isDead()){
+					 if (player_1->get_direction()%2 == 0 )
+						gBuff->DrawImage(tankBitmap, player_1->get_x(), player_1->get_y());
+					 else{
+						 gBuff->DrawImage(horizontalTankBitmap, player_1->get_x(), player_1->get_y());
+					 }
+				 }
 	}
 
 			 //if the bullets aren't dead and are not nullptr - draw them
